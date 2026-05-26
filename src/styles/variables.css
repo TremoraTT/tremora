@@ -1,0 +1,30 @@
+:root {
+  --peach: #F99667;
+  --peach-light: #FDB992;
+  --cream: #FFEACC;
+  --cream-light: #FFF5E8;
+  --lavender: #F0CADE;
+  --lavender-light: #F8E2EE;
+  --coral: #FB4F62;
+  --coral-light: #FD8A96;
+  --dark: #0D0D0D;
+  --dark-surface: #1A1A1A;
+  --dark-elevated: #242424;
+
+  --text-primary: #1A1A1A;
+  --text-secondary: #4A4A4A;
+  --text-muted: #7A7A7A;
+  --text-light: #FFEACC;
+
+  --font-display: 'Bebas Neue', 'Impact', sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --section-pad: clamp(48px, 6vw, 96px);
+  --container: 1200px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+}
