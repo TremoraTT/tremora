@@ -298,7 +298,8 @@ export default function HowItWorks() {
             textTransform: 'uppercase',
             lineHeight: 1,
           }}>
-            From wrist to neurologist<br />in three steps.
+            <span style={{ color: 'var(--cream)' }}>From wrist to neurologist</span><br />
+            <span style={{ color: 'rgba(255,234,204,0.4)' }}>in three steps.</span>
           </h2>
         </div>
 

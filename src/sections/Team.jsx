@@ -120,8 +120,8 @@ export default function Team() {
               textTransform: 'uppercase',
               lineHeight: 1,
             }}>
-              Student builders.<br />
-              Real medical impact.
+              <span style={{ color: 'var(--cream)' }}>Student builders.</span><br />
+              <span style={{ color: 'rgba(255,234,204,0.4)' }}>Real medical impact.</span>
             </h2>
             <p style={{
               color: 'rgba(255,234,204,0.6)',

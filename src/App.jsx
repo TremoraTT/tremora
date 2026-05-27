@@ -11,6 +11,19 @@ import Roadmap from './sections/Roadmap'
 import CTA from './sections/CTA'
 import Privacy from './sections/Privacy'
 
+function SectionDivider({ bg = 'var(--cream)', color = 'rgba(0,0,0,0.06)' }) {
+  return (
+    <div style={{ background: bg, padding: '0 clamp(24px, 5vw, 64px)' }}>
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        height: '1px',
+        background: color,
+      }} />
+    </div>
+  )
+}
+
 function App() {
   useLenis()
 
@@ -22,8 +35,10 @@ function App() {
       <Marquee />
       <Problem />
       <HowItWorks />
+      <SectionDivider bg="var(--cream)" />
       <Device />
       <Team />
+      <SectionDivider bg="var(--cream)" />
       <Roadmap />
       <Privacy />
       <CTA />

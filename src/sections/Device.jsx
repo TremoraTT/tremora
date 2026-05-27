@@ -165,7 +165,8 @@ export default function Device() {
             lineHeight: 1,
             marginBottom: '20px',
           }}>
-            What's inside<br />TremoTrack v1.
+            <span>What's inside</span><br />
+            <span style={{ color: 'var(--text-muted)' }}>TremoTrack v1.</span>
           </h2>
           <p style={{
             color: 'var(--text-secondary)',

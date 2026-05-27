@@ -180,7 +180,9 @@ export default function Problem() {
               lineHeight: 1,
               marginBottom: '24px',
             }}>
-              Neurologists make 3-month decisions from 15-minute snapshots.
+              <span style={{ color: 'var(--text-primary)' }}>Neurologists make 3-month decisions</span>
+              <br />
+              <span style={{ color: 'var(--text-muted)' }}>from 15-minute snapshots.</span>
             </h2>
             <p style={{
               color: 'var(--text-secondary)',
