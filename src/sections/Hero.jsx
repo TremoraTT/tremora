@@ -7,69 +7,85 @@ import ChromeObjects from '../components/ChromeObjects'
 gsap.registerPlugin(ScrollTrigger)
 
 const heroObjects = [
-  { type: 'pill', position: [-3.2, 1.5, -0.3], scale: 0.5, speed: 0.6 },
-  { type: 'torus', position: [3.5, -1.2, -0.2], scale: 0.55, speed: 0.4 },
-  { type: 'pulse', position: [-2.8, -1.8, -0.5], scale: 0.4, speed: 0.5 },
-  { type: 'brain', position: [3.2, 1.8, -0.4], scale: 0.4, speed: 0.35 },
+  { type: 'pill', position: [-4.2, 2.2, -0.3], scale: 0.45, speed: 0.5 },
+  { type: 'torus', position: [4.5, -1.8, -0.2], scale: 0.5, speed: 0.35 },
+  { type: 'pulse', position: [-3.5, -2.5, -0.5], scale: 0.35, speed: 0.45 },
+  { type: 'brain', position: [3.8, 2.5, -0.4], scale: 0.35, speed: 0.3 },
+  { type: 'pill', position: [1.5, 3.2, -0.6], scale: 0.25, speed: 0.6 },
+  { type: 'torus', position: [-1.8, -3.2, -0.3], scale: 0.3, speed: 0.4 },
 ]
 
-const subtitleWords = 'A wrist-worn sensor that tracks Parkinson\'s tremor severity 24/7, scores it with a trained classifier, and shows neurologists what happens between visits.'.split(' ')
+const chromeTextStyle = {
+  fontFamily: "'Playfair Display', Georgia, serif",
+  fontWeight: 800,
+  fontStyle: 'italic',
+  fontSize: 'clamp(5rem, 15vw, 14rem)',
+  lineHeight: 0.85,
+  letterSpacing: '-0.03em',
+  textTransform: 'none',
+  background: 'linear-gradient(180deg, #e8e8e8 0%, #b8b8b8 25%, #e0e0e0 40%, #999 55%, #c8c8c8 70%, #aaa 85%, #d0d0d0 100%)',
+  WebkitBackgroundClip: 'text',
+  backgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
+  textShadow: 'none',
+  position: 'relative',
+}
 
 export default function Hero() {
   const sectionRef = useRef()
-  const titleWrapRef = useRef()
+  const titleRef = useRef()
+  const contentRef = useRef()
   const subtitleRef = useRef()
   const ctaRef = useRef()
-  const contentRef = useRef()
-  const tagRef = useRef()
   const badgeRef = useRef()
+  const navLinksRef = useRef()
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
+      const tl = gsap.timeline({
+        defaults: { ease: 'power4.out' },
+        delay: 0.3,
+      })
 
-      tl.to('.hero-tag', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-      })
-      .from('.hero-line', {
+      // Title letters stagger
+      tl.from('.hero-chrome-line', {
         yPercent: 120,
-        rotateX: -80,
+        rotateX: -60,
         opacity: 0,
-        duration: 1.6,
-        stagger: 0.12,
+        duration: 1.8,
+        stagger: 0.15,
+        ease: 'power4.out',
       })
-      .from(tagRef.current, {
-        width: 0,
-        duration: 0.8,
-        ease: 'power2.inOut',
-      }, '-=0.8')
-      .from('.hero-word', {
-        y: 24,
+      .from('.hero-nav-link', {
+        y: 20,
         opacity: 0,
-        duration: 0.5,
-        stagger: 0.025,
+        duration: 0.6,
+        stagger: 0.08,
+      }, '-=0.8')
+      .from(subtitleRef.current, {
+        y: 40,
+        opacity: 0,
+        duration: 1,
       }, '-=0.4')
-      .from(ctaRef.current.children, {
-        y: 24,
+      .from(ctaRef.current?.children || [], {
+        y: 30,
         opacity: 0,
         scale: 0.95,
         duration: 0.7,
         stagger: 0.1,
-      }, '-=0.3')
+      }, '-=0.5')
       .from(badgeRef.current, {
         scale: 0.8,
         opacity: 0,
         duration: 0.6,
         ease: 'back.out(2)',
-      }, '-=0.2')
+      }, '-=0.3')
 
-      // Scroll-linked zoom out
-      gsap.to(contentRef.current, {
-        scale: 0.85,
-        opacity: 0,
-        y: -80,
+      // Scroll-linked parallax
+      gsap.to(titleRef.current, {
+        y: -120,
+        scale: 0.9,
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
@@ -78,14 +94,14 @@ export default function Hero() {
         },
       })
 
-      // Background gradient shift
-      gsap.to(sectionRef.current, {
-        '--gradient-pos': '100%',
+      gsap.to(contentRef.current, {
+        y: -60,
+        opacity: 0,
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 2,
+          start: '30% top',
+          end: '80% top',
+          scrub: 1.5,
         },
       })
     }, sectionRef)
@@ -99,110 +115,116 @@ export default function Hero() {
       minHeight: '100vh',
       background: 'var(--cream)',
       display: 'flex',
+      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       overflow: 'hidden',
+      padding: '0 24px',
     }}>
-      {/* Subtle radial gradient */}
+      {/* Subtle gradient overlays */}
       <div style={{
         position: 'absolute',
         inset: 0,
-        background: 'radial-gradient(ellipse 80% 60% at 50% 120%, rgba(249,150,103,0.08) 0%, transparent 70%)',
+        background: 'radial-gradient(ellipse 80% 60% at 50% 120%, rgba(249,150,103,0.06) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
-
-      {/* Top gradient fade for nav blend */}
       <div style={{
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
-        height: '200px',
-        background: 'linear-gradient(to bottom, rgba(255,234,204,0.5) 0%, transparent 100%)',
+        height: '300px',
+        background: 'linear-gradient(to bottom, rgba(255,234,204,0.6) 0%, transparent 100%)',
         pointerEvents: 'none',
       }} />
 
       <ChromeObjects objects={heroObjects} />
 
+      {/* Chrome Title — Full viewport width */}
+      <div ref={titleRef} style={{
+        position: 'relative',
+        zIndex: 3,
+        textAlign: 'center',
+        willChange: 'transform',
+        marginBottom: '40px',
+      }}>
+        <div style={{
+          perspective: '1200px',
+          transformStyle: 'preserve-3d',
+        }}>
+          <div style={{ overflow: 'hidden', paddingBottom: '12px' }}>
+            <div className="hero-chrome-line" style={{
+              ...chromeTextStyle,
+              transformOrigin: 'bottom center',
+            }}>
+              tremora
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Nav links under title — like hildenkaira */}
+      <div ref={navLinksRef} style={{
+        display: 'flex',
+        gap: '40px',
+        justifyContent: 'center',
+        marginBottom: '80px',
+        position: 'relative',
+        zIndex: 4,
+      }}>
+        {['Our approach', 'Device', 'Team', 'Research'].map((label, i) => (
+          <a
+            key={i}
+            href={`#${label.toLowerCase().replace(/\s/g, '-')}`}
+            className="hero-nav-link"
+            data-cursor-text="View"
+            style={{
+              fontSize: '0.85rem',
+              color: 'var(--text-secondary)',
+              fontWeight: 400,
+              letterSpacing: '0.01em',
+              transition: 'color 0.3s ease',
+            }}
+            onMouseEnter={e => e.target.style.color = 'var(--text-primary)'}
+            onMouseLeave={e => e.target.style.color = 'var(--text-secondary)'}
+          >
+            {label}
+          </a>
+        ))}
+      </div>
+
+      {/* Subtitle + CTA */}
       <div ref={contentRef} style={{
         position: 'relative',
         zIndex: 3,
         textAlign: 'center',
-        maxWidth: '1100px',
-        padding: '0 24px',
+        maxWidth: '700px',
         willChange: 'transform, opacity',
       }}>
-        <div style={{
-          fontSize: '0.7rem',
-          textTransform: 'uppercase',
-          letterSpacing: '0.25em',
-          color: 'var(--text-muted)',
-          fontWeight: 500,
-          marginBottom: '20px',
-          opacity: 0,
-          transform: 'translateY(10px)',
-        }}
-          className="hero-tag"
-        >
-          Parkinson's Tremor Monitoring
-        </div>
-
-        <div ref={titleWrapRef} style={{
-          marginBottom: '40px',
-          overflow: 'hidden',
-        }}>
-          <div style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(4rem, 12vw, 10rem)',
-            fontWeight: 400,
-            color: 'var(--text-primary)',
-            lineHeight: 0.85,
-            letterSpacing: '-0.02em',
-            textTransform: 'uppercase',
-            perspective: '800px',
-          }}>
-            <div style={{ overflow: 'hidden', paddingBottom: '8px' }}>
-              <div className="hero-line" style={{
-                display: 'block',
-                transformOrigin: 'bottom center',
-                willChange: 'transform',
-              }}>
-                Tremora
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          ref={tagRef}
-          style={{
-            width: '80px',
-            height: '3px',
-            background: 'var(--coral)',
-            margin: '0 auto 40px',
-            borderRadius: '2px',
-            overflow: 'hidden',
-          }}
-        />
-
         <p ref={subtitleRef} style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 'clamp(1rem, 1.6vw, 1.15rem)',
-          color: 'var(--text-secondary)',
+          fontFamily: "'Playfair Display', Georgia, serif",
+          fontSize: 'clamp(1.5rem, 3.5vw, 2.8rem)',
+          color: 'var(--text-primary)',
           fontWeight: 400,
-          lineHeight: 1.7,
-          maxWidth: '540px',
-          margin: '0 auto 48px',
+          fontStyle: 'italic',
+          lineHeight: 1.3,
+          marginBottom: '32px',
         }}>
-          {subtitleWords.map((word, i) => (
-            <span
-              key={i}
-              className="hero-word"
-              style={{ display: 'inline-block', marginRight: '0.3em' }}
-            >
-              {word}
-            </span>
-          ))}
+          If your neurologist can't see
+          between visits, they're treating
+          a snapshot — not a patient.
+        </p>
+
+        <p style={{
+          fontSize: '0.95rem',
+          color: 'var(--text-secondary)',
+          lineHeight: 1.7,
+          maxWidth: '480px',
+          margin: '0 auto 44px',
+        }}>
+          A wrist-worn sensor that tracks Parkinson's tremor severity 24/7,
+          scores it with a trained classifier, and shows neurologists what
+          happens between visits.
         </p>
 
         <div ref={ctaRef} style={{
@@ -210,7 +232,7 @@ export default function Hero() {
           gap: '14px',
           justifyContent: 'center',
           flexWrap: 'wrap',
-          marginBottom: '48px',
+          marginBottom: '40px',
         }}>
           <Button variant="primary" href="#how-it-works">
             See How It Works
@@ -236,18 +258,19 @@ export default function Hero() {
             borderRadius: '50%',
             background: '#22c55e',
             boxShadow: '0 0 6px rgba(34,197,94,0.4)',
+            animation: 'pulse-green 2s ease-in-out infinite',
           }} />
           <span style={{
             fontSize: '0.75rem',
             color: 'var(--text-secondary)',
             fontWeight: 500,
-            letterSpacing: '0.01em',
           }}>
             Presenting at Atlanta Startup Village — July 27, 2026
           </span>
         </div>
       </div>
 
+      {/* Scroll indicator */}
       <div style={{
         position: 'absolute',
         bottom: '32px',
@@ -275,13 +298,18 @@ export default function Hero() {
           opacity: 0.3,
           animation: 'scrollPulse 2s ease-in-out infinite',
         }} />
-        <style>{`
-          @keyframes scrollPulse {
-            0%, 100% { transform: scaleY(1); opacity: 0.3; }
-            50% { transform: scaleY(0.5); opacity: 0.6; }
-          }
-        `}</style>
       </div>
+
+      <style>{`
+        @keyframes scrollPulse {
+          0%, 100% { transform: scaleY(1); opacity: 0.3; }
+          50% { transform: scaleY(0.5); opacity: 0.6; }
+        }
+        @keyframes pulse-green {
+          0%, 100% { box-shadow: 0 0 6px rgba(34,197,94,0.4); }
+          50% { box-shadow: 0 0 12px rgba(34,197,94,0.6); }
+        }
+      `}</style>
     </section>
   )
 }

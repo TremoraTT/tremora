@@ -5,6 +5,7 @@ import Marquee from './components/Marquee'
 import Hero from './sections/Hero'
 import Problem from './sections/Problem'
 import HowItWorks from './sections/HowItWorks'
+import Features from './sections/Features'
 import Device from './sections/Device'
 import Team from './sections/Team'
 import Roadmap from './sections/Roadmap'
@@ -35,6 +36,8 @@ function App() {
       <Marquee />
       <Problem />
       <HowItWorks />
+      <SectionDivider bg="var(--cream)" />
+      <Features />
       <SectionDivider bg="var(--cream)" />
       <Device />
       <Team />

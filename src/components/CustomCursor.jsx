@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react'
 
 export default function CustomCursor() {
-  const dotRef = useRef(null)
-  const ringRef = useRef(null)
+  const cursorRef = useRef(null)
+  const trailRef = useRef(null)
+  const textRef = useRef(null)
   const pos = useRef({ x: -100, y: -100 })
-  const dotPos = useRef({ x: -100, y: -100 })
-  const ringPos = useRef({ x: -100, y: -100 })
+  const cursorPos = useRef({ x: -100, y: -100 })
+  const trailPos = useRef({ x: -100, y: -100 })
   const hovering = useRef(false)
+  const hoverText = useRef('')
   const raf = useRef(null)
 
   useEffect(() => {
@@ -14,30 +16,56 @@ export default function CustomCursor() {
       pos.current = { x: e.clientX, y: e.clientY }
     }
 
-    const onEnter = () => {
+    const onEnter = (e) => {
       hovering.current = true
-      if (ringRef.current) ringRef.current.style.transform = 'translate(-50%, -50%) scale(2)'
-      if (dotRef.current) dotRef.current.style.opacity = '0'
+      hoverText.current = e.target.dataset?.cursorText || ''
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = 'translate(-50%, -50%) scale(3)'
+        cursorRef.current.style.mixBlendMode = 'difference'
+        cursorRef.current.style.background = 'white'
+      }
+      if (trailRef.current) {
+        trailRef.current.style.opacity = '0'
+      }
+      if (textRef.current) {
+        textRef.current.style.opacity = hoverText.current ? '1' : '0'
+        textRef.current.textContent = hoverText.current
+      }
     }
+
     const onLeave = () => {
       hovering.current = false
-      if (ringRef.current) ringRef.current.style.transform = 'translate(-50%, -50%) scale(1)'
-      if (dotRef.current) dotRef.current.style.opacity = '1'
+      hoverText.current = ''
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = 'translate(-50%, -50%) scale(1)'
+        cursorRef.current.style.mixBlendMode = 'normal'
+        cursorRef.current.style.background = 'var(--coral)'
+      }
+      if (trailRef.current) {
+        trailRef.current.style.opacity = '0.4'
+      }
+      if (textRef.current) {
+        textRef.current.style.opacity = '0'
+      }
     }
 
     const animate = () => {
-      dotPos.current.x += (pos.current.x - dotPos.current.x) * 0.9
-      dotPos.current.y += (pos.current.y - dotPos.current.y) * 0.9
-      ringPos.current.x += (pos.current.x - ringPos.current.x) * 0.15
-      ringPos.current.y += (pos.current.y - ringPos.current.y) * 0.15
+      cursorPos.current.x += (pos.current.x - cursorPos.current.x) * 0.85
+      cursorPos.current.y += (pos.current.y - cursorPos.current.y) * 0.85
+      trailPos.current.x += (pos.current.x - trailPos.current.x) * 0.12
+      trailPos.current.y += (pos.current.y - trailPos.current.y) * 0.12
 
-      if (dotRef.current) {
-        dotRef.current.style.left = `${dotPos.current.x}px`
-        dotRef.current.style.top = `${dotPos.current.y}px`
+      if (cursorRef.current) {
+        cursorRef.current.style.left = `${cursorPos.current.x}px`
+        cursorRef.current.style.top = `${cursorPos.current.y}px`
       }
-      if (ringRef.current) {
-        ringRef.current.style.left = `${ringPos.current.x}px`
-        ringRef.current.style.top = `${ringPos.current.y}px`
+      if (trailRef.current) {
+        trailRef.current.style.left = `${trailPos.current.x}px`
+        trailRef.current.style.top = `${trailPos.current.y}px`
+      }
+      if (textRef.current) {
+        textRef.current.style.left = `${cursorPos.current.x}px`
+        textRef.current.style.top = `${cursorPos.current.y + 28}px`
       }
 
       raf.current = requestAnimationFrame(animate)
@@ -70,37 +98,59 @@ export default function CustomCursor() {
 
   return (
     <>
+      {/* Main cursor — small dot that expands to blend-mode circle on hover */}
       <div
-        ref={dotRef}
+        ref={cursorRef}
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          width: 6,
-          height: 6,
+          width: 12,
+          height: 12,
           borderRadius: '50%',
           background: 'var(--coral)',
           pointerEvents: 'none',
           zIndex: 9999,
           transform: 'translate(-50%, -50%)',
-          transition: 'opacity 0.3s',
+          transition: 'transform 0.4s cubic-bezier(0.22,1,0.36,1), background 0.3s, mix-blend-mode 0.3s',
         }}
       />
+      {/* Trail — lazy follower */}
       <div
-        ref={ringRef}
+        ref={trailRef}
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          width: 36,
-          height: 36,
+          width: 40,
+          height: 40,
           borderRadius: '50%',
-          border: '1.5px solid var(--coral)',
+          border: '1px solid var(--coral)',
           pointerEvents: 'none',
           zIndex: 9998,
           transform: 'translate(-50%, -50%)',
-          transition: 'transform 0.3s cubic-bezier(0.22,1,0.36,1)',
-          opacity: 0.5,
+          transition: 'opacity 0.3s ease',
+          opacity: 0.4,
+        }}
+      />
+      {/* Hover text label */}
+      <div
+        ref={textRef}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          transform: 'translateX(-50%)',
+          pointerEvents: 'none',
+          zIndex: 9999,
+          fontSize: '0.6rem',
+          fontWeight: 600,
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
+          color: 'var(--coral)',
+          opacity: 0,
+          transition: 'opacity 0.2s ease',
+          whiteSpace: 'nowrap',
         }}
       />
     </>

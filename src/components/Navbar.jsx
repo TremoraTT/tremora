@@ -3,6 +3,7 @@ import gsap from 'gsap'
 
 const navLinks = [
   { label: 'How It Works', href: '#how-it-works' },
+  { label: 'Technology', href: '#features' },
   { label: 'Device', href: '#device' },
   { label: 'Team', href: '#team' },
 ]
