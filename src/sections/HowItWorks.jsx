@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -39,7 +39,7 @@ function StepVisual({ type }) {
   return (
     <div style={{
       width: '100%',
-      height: '200px',
+      height: '220px',
       borderRadius: 'var(--radius-lg)',
       display: 'flex',
       alignItems: 'center',
@@ -56,6 +56,21 @@ function StepVisual({ type }) {
             fill="none"
             stroke="var(--coral)"
             strokeWidth="2"
+            strokeLinecap="round"
+          >
+            <animate attributeName="d"
+              values="M0,30 Q10,10 20,30 T40,30 T60,30 Q70,5 80,30 T100,30 T120,30 Q130,8 140,30 T160,30 T180,30 T200,30;M0,30 Q10,20 20,30 T40,30 T60,30 Q70,15 80,30 T100,30 T120,30 Q130,18 140,30 T160,30 T180,30 T200,30;M0,30 Q10,10 20,30 T40,30 T60,30 Q70,5 80,30 T100,30 T120,30 Q130,8 140,30 T160,30 T180,30 T200,30"
+              dur="3s" repeatCount="indefinite" />
+          </path>
+          {/* Glow copy */}
+          <path
+            d="M0,30 Q10,10 20,30 T40,30 T60,30 Q70,5 80,30 T100,30 T120,30 Q130,8 140,30 T160,30 T180,30 T200,30"
+            fill="none"
+            stroke="var(--coral)"
+            strokeWidth="6"
+            strokeLinecap="round"
+            opacity="0.15"
+            filter="blur(4px)"
           >
             <animate attributeName="d"
               values="M0,30 Q10,10 20,30 T40,30 T60,30 Q70,5 80,30 T100,30 T120,30 Q130,8 140,30 T160,30 T180,30 T200,30;M0,30 Q10,20 20,30 T40,30 T60,30 Q70,15 80,30 T100,30 T120,30 Q130,18 140,30 T160,30 T180,30 T200,30;M0,30 Q10,10 20,30 T40,30 T60,30 Q70,5 80,30 T100,30 T120,30 Q130,8 140,30 T160,30 T180,30 T200,30"
@@ -109,13 +124,96 @@ function StepVisual({ type }) {
             padding: '14px',
           }}>
             <svg viewBox="0 0 300 50" style={{ width: '100%', height: '100%' }}>
-              <path d="M0,40 L30,35 L60,25 L90,30 L120,15 L150,20 L180,10 L210,18 L240,12 L270,8 L300,15" fill="none" stroke="var(--coral)" strokeWidth="2" />
+              <path d="M0,40 L30,35 L60,25 L90,30 L120,15 L150,20 L180,10 L210,18 L240,12 L270,8 L300,15" fill="none" stroke="var(--coral)" strokeWidth="2" strokeLinecap="round" />
+              <path d="M0,40 L30,35 L60,25 L90,30 L120,15 L150,20 L180,10 L210,18 L240,12 L270,8 L300,15" fill="url(#dashGrad)" opacity="0.15" />
+              <defs>
+                <linearGradient id="dashGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--coral)" />
+                  <stop offset="100%" stopColor="transparent" />
+                </linearGradient>
+              </defs>
               <line x1="120" y1="0" x2="120" y2="50" stroke="var(--peach)" strokeWidth="1" strokeDasharray="3,3" />
               <text x="122" y="48" fill="var(--peach)" fontSize="6">Med taken</text>
             </svg>
           </div>
         </div>
       )}
+    </div>
+  )
+}
+
+function StepCard({ step, index }) {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: index % 2 === 0 ? 'var(--dark-surface)' : 'var(--dark-elevated)',
+        borderRadius: 'var(--radius-xl)',
+        padding: '48px',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '48px',
+        alignItems: 'center',
+        border: `1px solid ${hovered ? 'rgba(255,234,204,0.1)' : 'rgba(255,234,204,0.04)'}`,
+        transition: 'border-color 0.4s ease, transform 0.4s cubic-bezier(0.22,1,0.36,1)',
+        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+      }}
+    >
+      <div style={{ order: index % 2 === 0 ? 0 : 1 }}>
+        <div style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: '4.5rem',
+          fontWeight: 800,
+          color: 'var(--coral)',
+          opacity: hovered ? 0.35 : 0.15,
+          lineHeight: 1,
+          marginBottom: '0',
+          transition: 'opacity 0.4s ease',
+        }}>
+          {step.number}
+        </div>
+        <h3 style={{
+          fontSize: 'clamp(1.8rem, 3vw, 2.8rem)',
+          color: 'var(--cream)',
+          marginBottom: '16px',
+          marginTop: '-6px',
+          letterSpacing: '-0.02em',
+          fontFamily: 'var(--font-display)',
+          textTransform: 'uppercase',
+        }}>
+          {step.title}
+        </h3>
+        <p style={{
+          color: 'rgba(255,234,204,0.55)',
+          fontSize: '0.9rem',
+          marginBottom: '24px',
+          maxWidth: '400px',
+          lineHeight: 1.7,
+        }}>
+          {step.description}
+        </p>
+        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+          {step.techTags.map((tag, j) => (
+            <span key={j} style={{
+              fontSize: '0.65rem',
+              padding: '5px 14px',
+              borderRadius: 'var(--radius-pill)',
+              background: 'rgba(255,234,204,0.06)',
+              color: 'rgba(255,234,204,0.6)',
+              fontWeight: 500,
+              transition: 'background 0.3s ease',
+            }}>
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div style={{ order: index % 2 === 0 ? 1 : 0 }}>
+        <StepVisual type={step.visual} />
+      </div>
     </div>
   )
 }
@@ -143,8 +241,8 @@ export default function HowItWorks() {
       gsap.from(cards, {
         y: 80,
         opacity: 0,
-        scale: 0.95,
-        duration: 0.8,
+        scale: 0.97,
+        duration: 0.9,
         stagger: 0.2,
         ease: 'power3.out',
         scrollTrigger: {
@@ -180,7 +278,7 @@ export default function HowItWorks() {
       }}
     >
       <div className="container">
-        <div ref={headerRef} style={{ textAlign: 'center', marginBottom: '56px' }}>
+        <div ref={headerRef} style={{ textAlign: 'center', marginBottom: '72px' }}>
           <span style={{
             fontSize: '0.7rem',
             textTransform: 'uppercase',
@@ -210,70 +308,7 @@ export default function HowItWorks() {
           gap: '20px',
         }}>
           {steps.map((step, i) => (
-            <div
-              key={i}
-              style={{
-                background: i % 2 === 0 ? 'var(--dark-surface)' : 'var(--dark-elevated)',
-                borderRadius: 'var(--radius-xl)',
-                padding: '44px',
-                display: 'grid',
-                gridTemplateColumns: i % 2 === 0 ? '1fr 1fr' : '1fr 1fr',
-                gap: '40px',
-                alignItems: 'center',
-                border: '1px solid rgba(255,234,204,0.04)',
-              }}
-            >
-              <div style={{ order: i % 2 === 0 ? 0 : 1 }}>
-                <div style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '4rem',
-                  fontWeight: 800,
-                  color: 'var(--coral)',
-                  opacity: 0.2,
-                  lineHeight: 1,
-                  marginBottom: '0',
-                }}>
-                  {step.number}
-                </div>
-                <h3 style={{
-                  fontSize: 'clamp(1.8rem, 3vw, 2.8rem)',
-                  color: 'var(--cream)',
-                  marginBottom: '14px',
-                  marginTop: '-6px',
-                  letterSpacing: '-0.02em',
-                  fontFamily: 'var(--font-display)',
-                  textTransform: 'uppercase',
-                }}>
-                  {step.title}
-                </h3>
-                <p style={{
-                  color: 'rgba(255,234,204,0.55)',
-                  fontSize: '0.9rem',
-                  marginBottom: '20px',
-                  maxWidth: '400px',
-                  lineHeight: 1.7,
-                }}>
-                  {step.description}
-                </p>
-                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                  {step.techTags.map((tag, j) => (
-                    <span key={j} style={{
-                      fontSize: '0.65rem',
-                      padding: '4px 12px',
-                      borderRadius: 'var(--radius-pill)',
-                      background: 'rgba(255,234,204,0.06)',
-                      color: 'rgba(255,234,204,0.6)',
-                      fontWeight: 500,
-                    }}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div style={{ order: i % 2 === 0 ? 1 : 0 }}>
-                <StepVisual type={step.visual} />
-              </div>
-            </div>
+            <StepCard key={i} step={step} index={i} />
           ))}
         </div>
 
@@ -281,7 +316,7 @@ export default function HowItWorks() {
           textAlign: 'center',
           fontSize: '0.7rem',
           color: 'rgba(255,234,204,0.25)',
-          marginTop: '40px',
+          marginTop: '48px',
           fontStyle: 'italic',
         }}>
           All severity scores are algorithmic proxies intended to support, not replace, clinical judgment.

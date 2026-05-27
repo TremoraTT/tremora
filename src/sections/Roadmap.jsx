@@ -87,7 +87,7 @@ export default function Roadmap() {
       }}
     >
       <div className="container" style={{ paddingTop: 'var(--section-pad)' }}>
-        <div ref={headerRef} style={{ textAlign: 'center', marginBottom: '48px' }}>
+        <div ref={headerRef} style={{ textAlign: 'center', marginBottom: '72px' }}>
           <span style={{
             fontSize: '0.75rem',
             textTransform: 'uppercase',

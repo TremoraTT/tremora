@@ -152,12 +152,12 @@ export default function Problem() {
       }}
     >
       <div className="container">
-        <div style={{
+        <div className="grid-responsive" style={{
           display: 'grid',
           gridTemplateColumns: '1.2fr 1fr',
           gap: '60px',
           alignItems: 'start',
-          marginBottom: '56px',
+          marginBottom: '72px',
         }}>
           <div ref={headerRef}>
             <span style={{
@@ -220,11 +220,11 @@ export default function Problem() {
           </div>
         </div>
 
-        <div ref={statsRef} style={{
+        <div ref={statsRef} className="grid-responsive-2" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
           gap: '12px',
-          marginBottom: '56px',
+          marginBottom: '72px',
         }}>
           {stats.map((stat, i) => (
             <div
@@ -265,7 +265,7 @@ export default function Problem() {
           ))}
         </div>
 
-        <div ref={wavesRef} style={{
+        <div ref={wavesRef} className="grid-responsive" style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: '20px',
@@ -307,7 +307,7 @@ export default function Problem() {
               marginBottom: '20px',
               fontWeight: 600,
             }}>
-              TremoTrack: Continuous
+              Tremora: Continuous
             </div>
             <AnimatedWave color="var(--coral)" height={60} type="continuous" />
             <p style={{ fontSize: '0.8rem', color: 'var(--text-primary)', marginTop: '14px', lineHeight: 1.5 }}>

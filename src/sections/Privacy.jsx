@@ -4,34 +4,58 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const privacyItems = [
+  {
+    icon: '◯',
+    title: 'Data We Collect',
+    text: 'Accelerometer data from the wrist sensor to compute tremor severity scores. Waitlist signups collect email only. No names, locations, or PII beyond motion readings.',
+  },
+  {
+    icon: '◈',
+    title: 'How We Use It',
+    text: 'Sensor data processed on-device. Aggregated severity scores transmitted to neurologist dashboard only if patient opts in. We never sell or monetize patient data.',
+  },
+  {
+    icon: '◇',
+    title: 'Storage & Security',
+    text: 'Raw data stored locally via SPIFFS, exportable as CSV. Cloud transmission uses TLS 1.3. We follow HIPAA-aligned security practices for all data handling.',
+  },
+  {
+    icon: '△',
+    title: 'Your Rights',
+    text: 'Request deletion anytime at privacy@tremora.com. Unsubscribe instantly via email link. Device data wipeable locally via reset function.',
+  },
+]
+
 export default function Privacy() {
   const sectionRef = useRef()
-  const contentRef = useRef()
+  const headerRef = useRef()
+  const gridRef = useRef()
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(contentRef.current, {
-        y: 40,
+      gsap.from(headerRef.current, {
+        y: 50,
         opacity: 0,
         duration: 0.8,
         ease: 'power3.out',
         scrollTrigger: {
-          trigger: contentRef.current,
+          trigger: headerRef.current,
           start: 'top 85%',
           toggleActions: 'play none none none',
         },
       })
 
-      const sections = contentRef.current.querySelectorAll('.privacy-block')
-      gsap.from(sections, {
-        y: 30,
+      const cards = gridRef.current.children
+      gsap.from(cards, {
+        y: 40,
         opacity: 0,
         duration: 0.6,
-        stagger: 0.12,
+        stagger: 0.1,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger: contentRef.current,
-          start: 'top 75%',
+          trigger: gridRef.current,
+          start: 'top 80%',
           toggleActions: 'play none none none',
         },
       })
@@ -46,13 +70,13 @@ export default function Privacy() {
       ref={sectionRef}
       style={{
         padding: 'var(--section-pad) 0',
-        background: 'white',
+        background: 'var(--cream-light)',
       }}
     >
       <div className="container">
-        <div ref={contentRef} style={{ maxWidth: '720px' }}>
+        <div ref={headerRef} style={{ textAlign: 'center', marginBottom: '72px' }}>
           <span style={{
-            fontSize: '0.75rem',
+            fontSize: '0.7rem',
             textTransform: 'uppercase',
             letterSpacing: '0.2em',
             color: 'var(--text-muted)',
@@ -60,109 +84,94 @@ export default function Privacy() {
             marginBottom: '20px',
             display: 'block',
           }}>
-            Legal
+            Privacy & Security
           </span>
           <h2 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2rem, 4vw, 3rem)',
+            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
             color: 'var(--text-primary)',
             letterSpacing: '-0.02em',
             textTransform: 'uppercase',
             lineHeight: 1,
-            marginBottom: '40px',
+            marginBottom: '20px',
           }}>
-            Privacy Policy
+            Your data, your control.
           </h2>
-
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '32px',
+          <p style={{
             color: 'var(--text-secondary)',
-            fontSize: '0.9rem',
-            lineHeight: 1.8,
+            maxWidth: '480px',
+            margin: '0 auto',
+            lineHeight: 1.7,
+            fontSize: '0.95rem',
           }}>
-            <div className="privacy-block">
-              <h3 style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '1.2rem',
-                color: 'var(--text-primary)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                marginBottom: '12px',
-              }}>
-                Data We Collect
-              </h3>
-              <p>
-                TremoTrack collects accelerometer data from the wrist-worn sensor to compute
-                tremor severity scores. Waitlist signups collect your email address only.
-                We do not collect names, locations, or any personally identifiable health data
-                beyond motion sensor readings.
-              </p>
-            </div>
-
-            <div className="privacy-block">
-              <h3 style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '1.2rem',
-                color: 'var(--text-primary)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                marginBottom: '12px',
-              }}>
-                How We Use It
-              </h3>
-              <p>
-                Sensor data is processed on-device. Aggregated severity scores may be transmitted
-                to the neurologist dashboard if the patient opts in. We never sell, share, or
-                monetize patient data. Email addresses are used solely for waitlist communication.
-              </p>
-            </div>
-
-            <div className="privacy-block">
-              <h3 style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '1.2rem',
-                color: 'var(--text-primary)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                marginBottom: '12px',
-              }}>
-                Data Storage & Security
-              </h3>
-              <p>
-                Raw accelerometer data is stored locally on-device via SPIFFS and can be
-                exported as CSV. Cloud-transmitted data (when opted in) uses TLS 1.3 encryption.
-                We follow HIPAA-aligned security practices for all data handling.
-              </p>
-            </div>
-
-            <div className="privacy-block">
-              <h3 style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '1.2rem',
-                color: 'var(--text-primary)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                marginBottom: '12px',
-              }}>
-                Your Rights
-              </h3>
-              <p>
-                You can request deletion of all your data at any time by emailing
-                privacy@tremora.com. You can opt out of the waitlist instantly via
-                the unsubscribe link in any email. Device data can be wiped locally
-                at any time via the reset function.
-              </p>
-            </div>
-
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '16px' }}>
-              Last updated: May 2026. TremoTrack is pre-clinical technology and is not
-              subject to FDA regulation at this stage. This policy will be updated as
-              the product advances toward clinical use.
-            </p>
-          </div>
+            Privacy isn't a feature — it's the architecture. On-device processing means your tremor data never leaves your wrist unless you say so.
+          </p>
         </div>
+
+        <div ref={gridRef} style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '16px',
+          maxWidth: '900px',
+          margin: '0 auto',
+        }}>
+          {privacyItems.map((item, i) => (
+            <div
+              key={i}
+              style={{
+                background: 'white',
+                borderRadius: 'var(--radius-xl)',
+                padding: '40px',
+                border: '1px solid rgba(0,0,0,0.04)',
+                transition: 'transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-4px)'
+                e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.06)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = 'none'
+              }}
+            >
+              <div style={{
+                fontSize: '1.4rem',
+                marginBottom: '16px',
+                color: 'var(--coral)',
+                opacity: 0.7,
+              }}>
+                {item.icon}
+              </div>
+              <h3 style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '1.3rem',
+                color: 'var(--text-primary)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.02em',
+                marginBottom: '12px',
+              }}>
+                {item.title}
+              </h3>
+              <p style={{
+                fontSize: '0.85rem',
+                color: 'var(--text-secondary)',
+                lineHeight: 1.7,
+              }}>
+                {item.text}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <p style={{
+          textAlign: 'center',
+          fontSize: '0.7rem',
+          color: 'var(--text-muted)',
+          marginTop: '48px',
+          fontStyle: 'italic',
+        }}>
+          Last updated May 2026. TremoTrack is pre-clinical technology, not subject to FDA regulation at this stage.
+        </p>
       </div>
     </section>
   )

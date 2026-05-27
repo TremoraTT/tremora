@@ -20,8 +20,13 @@
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  --section-pad: clamp(48px, 6vw, 96px);
+  --section-pad: clamp(80px, 12vw, 160px);
   --container: 1200px;
+  --gap-xl: 80px;
+  --gap-lg: 48px;
+  --gap-md: 32px;
+  --gap-sm: 16px;
+  --gap-xs: 8px;
   --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 24px;

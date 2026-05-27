@@ -93,7 +93,7 @@ export default function Team() {
       }}
     >
       <div className="container">
-        <div style={{
+        <div className="grid-responsive" style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: '80px',
