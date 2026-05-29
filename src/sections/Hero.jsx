@@ -4,8 +4,27 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Button from '../components/Button'
 import ChromeObjects from '../components/ChromeObjects'
 import { Perspective, Highlight } from '../components/PerspectiveHighlight'
+import l0 from '../assets/title/l0.webp'
+import l1 from '../assets/title/l1.webp'
+import l2 from '../assets/title/l2.webp'
+import l3 from '../assets/title/l3.webp'
+import l4 from '../assets/title/l4.webp'
+import l5 from '../assets/title/l5.webp'
+import l6 from '../assets/title/l6.webp'
 
 gsap.registerPlugin(ScrollTrigger)
+
+// chrome "Tremora" sliced into 7 letters — contiguous, so a no-gap flex row
+// reconstructs the word exactly while each letter animates on its own
+const titleLetters = [
+  { src: l0, alt: 'T' },
+  { src: l1, alt: 'r' },
+  { src: l2, alt: 'e' },
+  { src: l3, alt: 'm' },
+  { src: l4, alt: 'o' },
+  { src: l5, alt: 'r' },
+  { src: l6, alt: 'a' },
+]
 
 const heroObjects = [
   { type: 'pill', position: [-5, 2.8, 0.5], scale: 0.6, speed: 0.5 },
@@ -17,23 +36,6 @@ const heroObjects = [
   { type: 'pulse', position: [-1, 3.2, 0.6], scale: 0.3, speed: 0.55 },
   { type: 'brain', position: [1.5, -3.5, 0.2], scale: 0.3, speed: 0.5 },
 ]
-
-const chromeTextStyle = {
-  fontFamily: "'Playfair Display', Georgia, serif",
-  fontWeight: 800,
-  fontStyle: 'italic',
-  fontSize: 'clamp(5rem, 15vw, 14rem)',
-  lineHeight: 0.85,
-  letterSpacing: '-0.03em',
-  textTransform: 'none',
-  background: 'linear-gradient(180deg, #f0f0f0 0%, #c8c8c8 15%, #e8e8e8 30%, #a0a0a0 50%, #d0d0d0 65%, #b0b0b0 80%, #e0e0e0 100%)',
-  WebkitBackgroundClip: 'text',
-  backgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  filter: 'drop-shadow(0 1px 0px rgba(255,255,255,0.4)) drop-shadow(0 -1px 0px rgba(0,0,0,0.15)) drop-shadow(0 4px 8px rgba(0,0,0,0.08))',
-  textShadow: 'none',
-  position: 'relative',
-}
 
 export default function Hero() {
   const sectionRef = useRef()
@@ -116,8 +118,6 @@ export default function Hero() {
     return () => ctx.revert()
   }, [])
 
-  const titleLetters = 'tremora'.split('')
-
   return (
     <section ref={sectionRef} style={{
       position: 'relative',
@@ -162,23 +162,37 @@ export default function Hero() {
           transformStyle: 'preserve-3d',
         }}>
           <div style={{ overflow: 'hidden', paddingBottom: '16px' }}>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'baseline',
-              gap: '0',
-            }}>
+            <div
+              aria-label="Tremora"
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+                gap: '0',
+                height: 'clamp(96px, 21vw, 240px)',
+              }}
+            >
               {titleLetters.map((letter, i) => (
                 <span
                   key={i}
                   className="hero-chrome-letter"
                   style={{
-                    ...chromeTextStyle,
                     transformOrigin: 'bottom center',
-                    display: 'inline-block',
+                    display: 'block',
+                    height: '100%',
                   }}
                 >
-                  {letter}
+                  <img
+                    src={letter.src}
+                    alt={letter.alt}
+                    draggable={false}
+                    style={{
+                      height: '100%',
+                      width: 'auto',
+                      display: 'block',
+                      animation: `heroFloat ${(3.6 + i * 0.25).toFixed(2)}s ease-in-out ${(i * 0.18).toFixed(2)}s infinite`,
+                    }}
+                  />
                 </span>
               ))}
             </div>
@@ -398,6 +412,13 @@ export default function Hero() {
         @keyframes pulse-green {
           0%, 100% { box-shadow: 0 0 6px rgba(34,197,94,0.4); }
           50% { box-shadow: 0 0 12px rgba(34,197,94,0.6); }
+        }
+        @keyframes heroFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-7px); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-chrome-letter img { animation: none !important; }
         }
       `}</style>
     </section>
