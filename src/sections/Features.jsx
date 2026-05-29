@@ -205,23 +205,34 @@ export default function Features() {
       })
 
       const track = trackRef.current
-      const totalScroll = track.scrollWidth - track.offsetWidth
+      const getScroll = () => track.scrollWidth - window.innerWidth
 
       gsap.to(track, {
-        x: -totalScroll,
+        x: () => -getScroll(),
         ease: 'none',
         scrollTrigger: {
           trigger: wrapperRef.current,
-          start: 'top 15%',
-          end: () => `+=${totalScroll}`,
+          start: 'top top',
+          end: () => `+=${getScroll()}`,
           scrub: 1,
           pin: true,
           anticipatePin: 1,
+          invalidateOnRefresh: true,
         },
       })
     }, sectionRef)
 
-    return () => ctx.revert()
+    // recompute after fonts/layout settle
+    const refresh = () => ScrollTrigger.refresh()
+    if (document.fonts?.ready) document.fonts.ready.then(refresh)
+    window.addEventListener('load', refresh)
+    const t = setTimeout(refresh, 400)
+
+    return () => {
+      window.removeEventListener('load', refresh)
+      clearTimeout(t)
+      ctx.revert()
+    }
   }, [])
 
   return (
@@ -238,7 +249,7 @@ export default function Features() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-end',
-          marginBottom: '72px',
+          marginBottom: '48px',
         }}>
           <div>
             <span style={{
@@ -284,7 +295,7 @@ export default function Features() {
             display: 'flex',
             gap: '28px',
             paddingLeft: 'max(24px, calc((100vw - 1200px) / 2))',
-            paddingRight: '48px',
+            paddingRight: 'max(48px, calc((100vw - 1200px) / 2))',
             width: 'max-content',
           }}
         >

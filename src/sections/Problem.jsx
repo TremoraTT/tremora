@@ -157,7 +157,7 @@ export default function Problem() {
           gridTemplateColumns: '1.2fr 1fr',
           gap: '60px',
           alignItems: 'start',
-          marginBottom: '72px',
+          marginBottom: '48px',
         }}>
           <div ref={headerRef}>
             <span style={{
@@ -226,7 +226,7 @@ export default function Problem() {
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
           gap: '12px',
-          marginBottom: '72px',
+          marginBottom: '48px',
         }}>
           {stats.map((stat, i) => (
             <div

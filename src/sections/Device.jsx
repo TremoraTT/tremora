@@ -144,7 +144,7 @@ export default function Device() {
       }}
     >
       <div className="container">
-        <div ref={headerRef} style={{ textAlign: 'center', marginBottom: '72px' }}>
+        <div ref={headerRef} style={{ textAlign: 'center', marginBottom: '48px' }}>
           <span style={{
             fontSize: '0.7rem',
             textTransform: 'uppercase',

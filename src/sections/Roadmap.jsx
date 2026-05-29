@@ -9,6 +9,8 @@ const cards = [
   {
     title: 'Neurologist Dashboard',
     description: 'Weeks of tremor data, medication response analytics, and auto-generated clinical summaries in one interface.',
+    detail: 'Severity heatmaps, dose-response overlays, exportable PDF visit reports.',
+    quarter: 'Q3 2026',
     status: 'In Development',
     statusColor: 'var(--coral)',
     bg: 'var(--lavender-light)',
@@ -16,6 +18,8 @@ const cards = [
   {
     title: 'Clinical Validation',
     description: 'Pilot study with neurology partners to validate UPDRS proxy accuracy against clinical assessment.',
+    detail: 'Target: n=30 patients, Bland-Altman agreement vs. in-clinic UPDRS scoring.',
+    quarter: 'Q4 2026',
     status: 'Planned',
     statusColor: 'var(--peach)',
     bg: 'var(--peach-light)',
@@ -23,6 +27,8 @@ const cards = [
   {
     title: 'Partner Platform',
     description: 'API and integration layer for neurology practices, enabling Medicare RPM billing (CPT 99453/99454).',
+    detail: 'Reimbursable remote monitoring — up to ~$120/patient/month recurring.',
+    quarter: 'Q1 2027',
     status: 'In Development',
     statusColor: 'var(--coral)',
     bg: 'var(--cream-light)',
@@ -30,6 +36,8 @@ const cards = [
   {
     title: 'Med Response Analytics',
     description: 'Before-vs-after scoring for every dose, revealing which medications are actually working.',
+    detail: 'Auto-detects wearing-off periods and dyskinesia windows from tremor curves.',
+    quarter: 'Q2 2027',
     status: 'In Development',
     statusColor: 'var(--coral)',
     bg: 'var(--lavender-light)',
@@ -37,6 +45,8 @@ const cards = [
   {
     title: 'Pilot Program',
     description: 'Early access for neurology practices and Parkinson\'s patients. Limited spots available.',
+    detail: 'First 50 devices shipping to design partners. Join the waitlist below.',
+    quarter: 'Open now',
     status: 'Coming Soon',
     statusColor: '#22c55e',
     bg: 'var(--coral-light)',
@@ -111,18 +121,45 @@ function RoadmapCard({ card, index }) {
         fontSize: '0.88rem',
         color: 'var(--text-secondary)',
         lineHeight: 1.65,
-        marginBottom: '32px',
+        marginBottom: '16px',
       }}>
         {card.description}
       </p>
 
-      <div style={{
-        fontSize: '0.7rem',
+      <p style={{
+        fontSize: '0.78rem',
         color: 'var(--text-muted)',
-        fontFamily: 'var(--font-display)',
-        letterSpacing: '0.1em',
+        lineHeight: 1.6,
+        fontStyle: 'italic',
+        marginBottom: '24px',
+        paddingTop: '16px',
+        borderTop: '1px solid rgba(26,26,26,0.08)',
       }}>
-        {String(index + 1).padStart(2, '0')}
+        {card.detail}
+      </p>
+
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}>
+        <span style={{
+          fontSize: '0.72rem',
+          fontWeight: 600,
+          color: 'var(--text-primary)',
+          textTransform: 'uppercase',
+          letterSpacing: '0.08em',
+        }}>
+          {card.quarter}
+        </span>
+        <span style={{
+          fontSize: '0.7rem',
+          color: 'var(--text-muted)',
+          fontFamily: 'var(--font-display)',
+          letterSpacing: '0.1em',
+        }}>
+          {String(index + 1).padStart(2, '0')} / 05
+        </span>
       </div>
     </div>
     </PerspectiveTilt>
@@ -150,23 +187,33 @@ export default function Roadmap() {
       })
 
       const track = trackRef.current
-      const totalScroll = track.scrollWidth - track.offsetWidth
+      const getScroll = () => track.scrollWidth - window.innerWidth
 
       gsap.to(track, {
-        x: -totalScroll,
+        x: () => -getScroll(),
         ease: 'none',
         scrollTrigger: {
           trigger: wrapperRef.current,
-          start: 'top 20%',
-          end: () => `+=${totalScroll}`,
+          start: 'top top',
+          end: () => `+=${getScroll()}`,
           scrub: 1,
           pin: true,
           anticipatePin: 1,
+          invalidateOnRefresh: true,
         },
       })
     }, sectionRef)
 
-    return () => ctx.revert()
+    const refresh = () => ScrollTrigger.refresh()
+    if (document.fonts?.ready) document.fonts.ready.then(refresh)
+    window.addEventListener('load', refresh)
+    const t = setTimeout(refresh, 400)
+
+    return () => {
+      window.removeEventListener('load', refresh)
+      clearTimeout(t)
+      ctx.revert()
+    }
   }, [])
 
   return (
@@ -179,7 +226,7 @@ export default function Roadmap() {
       }}
     >
       <div className="container" style={{ paddingTop: 'var(--section-pad)' }}>
-        <div ref={headerRef} style={{ textAlign: 'center', marginBottom: '72px' }}>
+        <div ref={headerRef} style={{ textAlign: 'center', marginBottom: '48px' }}>
           <span style={{
             fontSize: '0.7rem',
             textTransform: 'uppercase',
@@ -220,7 +267,7 @@ export default function Roadmap() {
             display: 'flex',
             gap: '24px',
             paddingLeft: 'max(24px, calc((100vw - 1200px) / 2))',
-            paddingRight: '48px',
+            paddingRight: 'max(48px, calc((100vw - 1200px) / 2))',
             width: 'max-content',
           }}
         >

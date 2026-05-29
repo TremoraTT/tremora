@@ -129,7 +129,7 @@ export default function Team() {
               lineHeight: 1.8,
               marginBottom: '20px',
             }}>
-              Tremora was founded by high school engineers who saw a gap between what neurologists need and what technology offers. We are building TremoTrack not as a school project, but as a platform that can change how Parkinson's disease is monitored at home.
+              Tremora was founded by high school engineers who saw a gap between what neurologists need and what technology offers. We are building Tremora not as a school project, but as a platform that can change how Parkinson's disease is monitored at home.
             </p>
             <p style={{
               color: 'rgba(255,234,204,0.6)',

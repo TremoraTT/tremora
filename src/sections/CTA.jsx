@@ -130,10 +130,10 @@ export default function CTA() {
             <p style={{
               color: 'rgba(255,234,204,0.5)',
               fontSize: '1.05rem',
-              marginBottom: '56px',
+              marginBottom: '40px',
               lineHeight: 1.7,
               maxWidth: '520px',
-              margin: '0 auto 56px',
+              margin: '0 auto 40px',
             }}>
               Join our waitlist for early access. We're looking for pilot participants,
               neurology partners, and anyone who believes tremor data should be continuous.
@@ -148,7 +148,7 @@ export default function CTA() {
                   display: 'flex',
                   gap: '12px',
                   maxWidth: '500px',
-                  margin: '0 auto 64px',
+                  margin: '0 auto 44px',
                   flexWrap: 'wrap',
                   justifyContent: 'center',
                 }}
@@ -229,7 +229,7 @@ export default function CTA() {
             borderRadius: 'var(--radius-lg)',
             overflow: 'hidden',
             maxWidth: '600px',
-            margin: '0 auto 100px',
+            margin: '0 auto 56px',
           }}>
             {[
               { value: '200Hz', label: 'Continuous sampling' },
@@ -317,7 +317,7 @@ export default function CTA() {
                 lineHeight: 1.6,
                 maxWidth: '400px',
               }}>
-                TremoTrack is early-stage clinical technology. Not FDA-cleared. Not a diagnostic device.
+                Tremora is early-stage clinical technology. Not FDA-cleared. Not a diagnostic device.
               </p>
               <p style={{
                 color: 'rgba(255,255,255,0.15)',

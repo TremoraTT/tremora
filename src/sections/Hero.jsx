@@ -202,7 +202,7 @@ export default function Hero() {
         display: 'flex',
         gap: '40px',
         justifyContent: 'center',
-        marginBottom: '80px',
+        marginBottom: '48px',
         position: 'relative',
         zIndex: 4,
       }}>
