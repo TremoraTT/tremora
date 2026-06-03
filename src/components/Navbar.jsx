@@ -74,25 +74,28 @@ export default function Navbar() {
         gap: scrolled ? '24px' : '32px',
         transition: 'gap 0.4s ease',
       }}>
-        {navLinks.map(link => (
-          <a
-            key={link.href}
-            href={link.href}
-            onClick={(e) => scrollTo(e, link.href)}
-            style={{
-              fontSize: scrolled ? '0.75rem' : '0.8rem',
-              color: scrolled ? 'rgba(255,234,204,0.6)' : 'var(--text-secondary)',
-              fontWeight: 400,
-              letterSpacing: '0.02em',
-              transition: 'color 0.3s, font-size 0.4s',
-              textTransform: 'uppercase',
-            }}
-            onMouseEnter={e => e.target.style.color = scrolled ? 'var(--cream)' : 'var(--text-primary)'}
-            onMouseLeave={e => e.target.style.color = scrolled ? 'rgba(255,234,204,0.6)' : 'var(--text-secondary)'}
-          >
-            {link.label}
-          </a>
-        ))}
+        <div className="nav-text-links" style={{ display: 'flex', alignItems: 'center', gap: 'inherit' }}>
+          {navLinks.map(link => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={(e) => scrollTo(e, link.href)}
+              style={{
+                fontSize: scrolled ? '0.75rem' : '0.8rem',
+                color: scrolled ? 'rgba(255,234,204,0.6)' : 'var(--text-secondary)',
+                fontWeight: 400,
+                letterSpacing: '0.02em',
+                transition: 'color 0.3s, font-size 0.4s',
+                textTransform: 'uppercase',
+                padding: '14px 0',
+              }}
+              onMouseEnter={e => e.target.style.color = scrolled ? 'var(--cream)' : 'var(--text-primary)'}
+              onMouseLeave={e => e.target.style.color = scrolled ? 'rgba(255,234,204,0.6)' : 'var(--text-secondary)'}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
         <a
           href="#waitlist"
           data-cursor-magnetic

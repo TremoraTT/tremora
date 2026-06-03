@@ -143,3 +143,11 @@ a:hover {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* Nav: collapse the section links on small screens — keep logo + Waitlist CTA,
+   so the bar never overflows. Sections stay reachable by scrolling. */
+@media (max-width: 768px) {
+  .nav-text-links {
+    display: none !important;
+  }
+}
