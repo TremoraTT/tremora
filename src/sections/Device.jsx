@@ -1,309 +1,98 @@
-import { useRef, useEffect, useState } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useRef } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { EffectCards, Keyboard } from 'swiper/modules'
+import { useCountUp } from '../hooks/useCountUp'
+import Reveal from '../components/Reveal'
+import { SliderArrows, injectSliderCSS } from '../components/Slider'
 
-gsap.registerPlugin(ScrollTrigger)
+injectSliderCSS()
 
-const components = [
-  { label: 'ESP32-WROOM-32', desc: 'Dual-core MCU with Wi-Fi/BLE', x: '12%', y: '22%', color: 'var(--lavender)' },
-  { label: 'MPU-6050 IMU', desc: '6-axis motion sensing at 200Hz', x: '78%', y: '18%', color: 'var(--peach)' },
-  { label: 'Random Forest', desc: '86.4% accuracy, on-device inference', x: '15%', y: '52%', color: 'var(--coral-light)' },
-  { label: 'TP4056 + LiPo', desc: '2000mAh, USB-C rechargeable', x: '75%', y: '55%', color: 'var(--cream-light)' },
-  { label: 'SPIFFS Storage', desc: 'Per-session CSV data logging', x: '12%', y: '80%', color: 'var(--peach-light)' },
-  { label: 'Med Button', desc: 'One-press dose event logging', x: '78%', y: '82%', color: 'var(--lavender-light)' },
+const cards = [
+  { kind: 'intro', label: 'Tremora v1', desc: 'A wrist-worn module, ~50×30×12mm. Six subsystems, one purpose: clinical-grade tremor data, continuously.', accent: 'var(--coral)' },
+  { n: '01', label: 'ESP32-WROOM-32', desc: 'Dual-core MCU with Wi-Fi + BLE. Runs the classifier and streams to the companion app.', accent: 'var(--lavender)' },
+  { n: '02', label: 'MPU-6050 IMU', desc: '6-axis motion sensing at 200Hz. The raw accelerometer + gyro signal every tremor reading is built from.', accent: 'var(--peach)' },
+  { n: '03', label: 'Random Forest', desc: '86.4% accuracy, on-device inference. Scores tremor severity in <50ms per window — no cloud round-trip.', accent: 'var(--coral-light)' },
+  { n: '04', label: 'TP4056 + LiPo', desc: '2000mAh, USB-C rechargeable. ~18 hours of active recording per charge.', accent: 'var(--cream)' },
+  { n: '05', label: 'SPIFFS Storage', desc: 'Per-session CSV logging on flash. Weeks of raw data retained for export and review.', accent: 'var(--peach-light)' },
+  { n: '06', label: 'Med Button', desc: 'One-press dose-event logging. Builds the before/after response curve for every medication.', accent: 'var(--lavender-light)' },
 ]
 
-function DeviceChip({ comp }) {
-  const [hovered, setHovered] = useState(false)
+const prices = [
+  { v: '$199', l: 'Target consumer price' },
+  { v: '~$60', l: 'BOM at 1k units' },
+  { v: '~70%', l: 'Gross margin' },
+]
 
-  return (
-    <div
-      className="device-chip"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        position: 'absolute',
-        left: comp.x,
-        top: comp.y,
-        transform: `translate(-50%, -50%) scale(${hovered ? 1.06 : 1})`,
-        background: hovered ? comp.color : 'white',
-        borderRadius: '16px',
-        padding: '18px 22px',
-        boxShadow: hovered ? '0 12px 40px rgba(0,0,0,0.12)' : '0 2px 16px rgba(0,0,0,0.04)',
-        maxWidth: '180px',
-        zIndex: hovered ? 10 : 3,
-        border: '1px solid rgba(0,0,0,0.04)',
-        transition: 'all 0.35s cubic-bezier(0.22,1,0.36,1)',
-        cursor: 'default',
-      }}
-    >
-      <div style={{
-        fontSize: '0.7rem',
-        fontWeight: 700,
-        color: 'var(--text-primary)',
-        marginBottom: '4px',
-        letterSpacing: '0.02em',
-      }}>
-        {comp.label}
-      </div>
-      <div style={{
-        fontSize: '0.6rem',
-        color: hovered ? 'var(--text-primary)' : 'var(--text-muted)',
-        lineHeight: 1.4,
-        transition: 'color 0.3s ease',
-      }}>
-        {comp.desc}
-      </div>
-    </div>
-  )
+function Price({ v }) {
+  const { ref, value } = useCountUp(v)
+  return <span ref={ref}>{value}</span>
 }
 
 export default function Device() {
-  const sectionRef = useRef()
-  const headerRef = useRef()
-  const diagramRef = useRef()
-  const statsRef = useRef()
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(headerRef.current, {
-        y: 60,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: headerRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none none',
-        },
-      })
-
-      gsap.from(diagramRef.current, {
-        scale: 0.9,
-        opacity: 0,
-        duration: 1.2,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: diagramRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none none',
-        },
-      })
-
-      const chips = diagramRef.current.querySelectorAll('.device-chip')
-      gsap.from(chips, {
-        opacity: 0,
-        y: 20,
-        scale: 0.9,
-        duration: 0.5,
-        stagger: 0.08,
-        ease: 'back.out(1.7)',
-        scrollTrigger: {
-          trigger: diagramRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none none',
-        },
-      })
-
-      gsap.from(statsRef.current.children, {
-        y: 40,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.12,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: statsRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none none',
-        },
-      })
-
-      gsap.to(diagramRef.current, {
-        y: -20,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top center',
-          end: 'bottom top',
-          scrub: 2,
-        },
-      })
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
+  const swiperRef = useRef(null)
 
   return (
-    <section
-      id="device"
-      ref={sectionRef}
-      style={{
-        padding: 'var(--section-pad) 0',
-        background: 'var(--cream)',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
+    <section id="device" style={{ background: 'var(--cream)', padding: 'var(--section-pad) 0', overflow: 'hidden' }}>
       <div className="container">
-        <div ref={headerRef} style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <span style={{
-            fontSize: '0.7rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.2em',
-            color: 'var(--text-muted)',
-            fontWeight: 500,
-            marginBottom: '20px',
-            display: 'block',
-          }}>
-            The Device
-          </span>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-            color: 'var(--text-primary)',
-            letterSpacing: '-0.02em',
-            textTransform: 'uppercase',
-            lineHeight: 1,
-            marginBottom: '20px',
-          }}>
-            <span>What's inside</span><br />
-            <span style={{ color: 'var(--text-muted)' }}>Tremora v1.</span>
-          </h2>
-          <p style={{
-            color: 'var(--text-secondary)',
-            maxWidth: '480px',
-            margin: '0 auto',
-            lineHeight: 1.7,
-            fontSize: '0.95rem',
-          }}>
-            Purpose-built hardware for continuous tremor monitoring. Every component chosen for clinical-grade data quality.
-          </p>
-        </div>
+        <div className="grid-responsive" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center' }}>
+          {/* Left: heading + price stats */}
+          <div>
+            <Reveal as="span" style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--text-muted)', fontWeight: 500, marginBottom: '18px', display: 'block' }}>The Hardware</Reveal>
+            <Reveal as="h2" variant="lines" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.4rem, 5.5vw, 4.4rem)', color: 'var(--text-primary)', letterSpacing: '-0.02em', textTransform: 'uppercase', lineHeight: 0.95, marginBottom: '22px' }}>
+              What's inside the band.
+            </Reveal>
+            <Reveal style={{ color: 'var(--text-secondary)', maxWidth: '420px', lineHeight: 1.7, fontSize: '0.95rem', marginBottom: '36px' }}>
+              Purpose-built hardware for continuous monitoring. Swipe the deck — every component was chosen for clinical-grade data quality.
+            </Reveal>
 
-        <div
-          ref={diagramRef}
-          style={{
-            position: 'relative',
-            maxWidth: '800px',
-            margin: '0 auto',
-            minHeight: '480px',
-          }}
-        >
-          {/* Center device */}
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '180px',
-            height: '240px',
-            background: 'linear-gradient(145deg, var(--lavender), var(--peach-light))',
-            borderRadius: '28px',
-            boxShadow: '0 24px 80px rgba(249,150,103,0.15), 0 0 0 1px rgba(0,0,0,0.04)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            gap: '10px',
-            zIndex: 2,
-          }}>
-            <div style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              background: 'var(--coral)',
-              opacity: 0.85,
-            }} />
-            <span style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '1rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.02em',
-              fontWeight: 700,
-              color: 'var(--text-primary)',
-            }}>
-              Tremora v1
-            </span>
-            <span style={{ fontSize: '0.55rem', color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>
-              ~50×30×12mm
-            </span>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', maxWidth: '440px' }}>
+              {prices.map((p, i) => (
+                <Reveal key={i} delay={i * 0.08} style={{ textAlign: 'center', padding: '22px 12px', background: 'white', borderRadius: 'var(--radius-lg)', border: '1px solid rgba(0,0,0,0.05)' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1, letterSpacing: '-0.02em' }}><Price v={p.v} /></div>
+                  <div style={{ fontSize: '0.62rem', color: 'var(--text-muted)', marginTop: '7px', lineHeight: 1.3 }}>{p.l}</div>
+                </Reveal>
+              ))}
+            </div>
           </div>
 
-          {/* Orbit rings */}
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '300px',
-            height: '300px',
-            border: '1px dashed rgba(26,26,26,0.06)',
-            borderRadius: '50%',
-          }} />
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '440px',
-            height: '440px',
-            border: '1px dashed rgba(26,26,26,0.04)',
-            borderRadius: '50%',
-          }} />
-
-          {/* Component chips */}
-          {components.map((comp, i) => (
-            <DeviceChip key={i} comp={comp} />
-          ))}
-        </div>
-
-        <div
-          ref={statsRef}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '16px',
-            marginTop: '72px',
-            maxWidth: '720px',
-            margin: '72px auto 0',
-          }}
-        >
-          {[
-            { value: '$199', label: 'Target consumer price' },
-            { value: '~$60', label: 'BOM at 1k units' },
-            { value: '~70%', label: 'Gross margin' },
-          ].map((item, i) => (
-            <div key={i} style={{
-              textAlign: 'center',
-              padding: '28px 20px',
-              background: 'white',
-              borderRadius: 'var(--radius-xl)',
-              border: '1px solid rgba(0,0,0,0.04)',
-              transition: 'transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease',
-            }}
-              onMouseEnter={e => {
-                e.currentTarget.style.transform = 'translateY(-3px)'
-                e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.06)'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'translateY(0)'
-                e.currentTarget.style.boxShadow = 'none'
-              }}
+          {/* Right: EffectCards flick deck */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px' }}>
+            <Swiper
+              modules={[EffectCards, Keyboard]}
+              effect="cards"
+              grabCursor
+              keyboard={{ enabled: true }}
+              cardsEffect={{ perSlideOffset: 9, perSlideRotate: 3, slideShadows: false }}
+              onSwiper={(s) => { swiperRef.current = s }}
+              style={{ width: 'min(330px, 80vw)', height: '420px' }}
             >
-              <div style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '2.4rem',
-                letterSpacing: '-0.02em',
-                fontWeight: 800,
-                color: 'var(--text-primary)',
-                lineHeight: 1,
-              }}>
-                {item.value}
-              </div>
-              <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '8px' }}>
-                {item.label}
-              </div>
-            </div>
-          ))}
+              {cards.map((c, i) => (
+                <SwiperSlide key={i} data-cursor-text="Drag">
+                  <div style={{
+                    width: '100%', height: '100%', padding: '34px 30px',
+                    background: c.kind === 'intro'
+                      ? 'linear-gradient(155deg, var(--dark-surface), var(--dark))'
+                      : 'white',
+                    color: c.kind === 'intro' ? 'var(--cream)' : 'var(--text-primary)',
+                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                      <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: c.accent, opacity: c.kind === 'intro' ? 1 : 0.9, boxShadow: `0 8px 24px ${c.kind === 'intro' ? 'rgba(251,79,98,0.4)' : 'rgba(0,0,0,0.08)'}` }} />
+                      {c.n && <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: c.kind === 'intro' ? 'var(--cream)' : 'var(--text-muted)', opacity: 0.5, letterSpacing: '0.05em' }}>{c.n}</span>}
+                    </div>
+                    <div>
+                      <h3 style={{ fontFamily: 'var(--font-display)', fontSize: c.kind === 'intro' ? '2.2rem' : '1.7rem', textTransform: 'uppercase', letterSpacing: '-0.01em', lineHeight: 1, marginBottom: '14px' }}>{c.label}</h3>
+                      <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: c.kind === 'intro' ? 'rgba(255,234,204,0.6)' : 'var(--text-secondary)' }}>{c.desc}</p>
+                    </div>
+                    <div style={{ fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.14em', opacity: 0.5 }}>
+                      {c.kind === 'intro' ? 'Swipe to explore →' : `Component ${c.n} / 06`}
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <SliderArrows theme="dark" onPrev={() => swiperRef.current?.slidePrev()} onNext={() => swiperRef.current?.slideNext()} />
+          </div>
         </div>
       </div>
     </section>
