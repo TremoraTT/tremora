@@ -2,7 +2,10 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Button from '../components/Button'
-import { SplineScene } from '../components/SplineScene'
+import ChromeObjects from '../components/ChromeObjects'
+// To enable the Spline 3D robot instead: `npm install @splinetool/react-spline
+// @splinetool/runtime`, then swap the <ChromeObjects/> block below for the
+// commented <SplineScene/> block. See AGENTS.md "Deferred / open tasks".
 import { Perspective, Highlight } from '../components/PerspectiveHighlight'
 import { useCountUp } from '../hooks/useCountUp'
 import l0 from '../assets/title/l0.webp'
@@ -70,16 +73,16 @@ export default function Hero() {
     }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 120%, rgba(230,25,25,0.05) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 1 }} />
 
-      {/* Interactive 3D scene — ambient right-side accent (hidden on mobile).
-          Requires: npm install @splinetool/react-spline @splinetool/runtime */}
-      <div className="hide-mobile" style={{
-        position: 'absolute', top: 56, right: 0, bottom: 0, width: 'min(46vw, 640px)',
-        zIndex: 2, opacity: 0.92,
-        maskImage: 'radial-gradient(120% 100% at 72% 50%, #000 52%, transparent 100%)',
-        WebkitMaskImage: 'radial-gradient(120% 100% at 72% 50%, #000 52%, transparent 100%)',
-      }}>
-        <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" style={{ width: '100%', height: '100%' }} />
+      <ChromeObjects objects={heroObjects} />
+      {/* SPLINE 3D (enable when @splinetool deps are installed) — replace the
+          <ChromeObjects/> line above with:
+      <div className="hide-mobile" style={{ position:'absolute', top:56, right:0, bottom:0,
+        width:'min(46vw,640px)', zIndex:2, opacity:0.92,
+        maskImage:'radial-gradient(120% 100% at 72% 50%, #000 52%, transparent 100%)',
+        WebkitMaskImage:'radial-gradient(120% 100% at 72% 50%, #000 52%, transparent 100%)' }}>
+        <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" style={{ width:'100%', height:'100%' }} />
       </div>
+      (and import { SplineScene } from '../components/SplineScene') */}
 
       {/* Chrome Title */}
       <div ref={titleRef} style={{ position: 'relative', zIndex: 3, textAlign: 'center', willChange: 'transform', marginTop: 'clamp(36px, 8vh, 110px)', marginBottom: '40px' }}>
