@@ -17,7 +17,7 @@ gsap.registerPlugin(ScrollTrigger)
 export default function BendScroll() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const DEPTH = 0.045 // how far edges recede (1 - DEPTH)
+    const DEPTH = 0.09 // how far edges recede (1 - DEPTH)
     const sections = gsap.utils.toArray('section[id]')
       .filter((s) => s.id !== 'top' && s.id !== 'features')
 

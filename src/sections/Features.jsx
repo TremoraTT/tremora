@@ -33,38 +33,46 @@ export default function Features() {
   const sectionRef = useRef()
   const pinHeightRef = useRef()
   const containerRef = useRef()
+  const progressRef = useRef()
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const pinHeight = pinHeightRef.current
-      const container = containerRef.current
-      const medias = gsap.utils.toArray('.tm-flash')
-      const n = medias.length
-      const gap = 64
+      const cards = gsap.utils.toArray('.tm-flash')
+      const n = cards.length
+      const st = { p: 0 }
 
-      ScrollTrigger.create({ trigger: pinHeight, start: 'top top', end: 'bottom bottom', pin: container, anticipatePin: 1, invalidateOnRefresh: true })
-
-      const distPerMedia = () => (pinHeight.clientHeight - window.innerHeight) / n
-      const triggerFactor = 0.85
-
-      gsap.set(medias, { y: () => gap * (n - 1), z: () => -gap * (n - 1) })
-
-      medias.forEach((media, index) => {
-        const isLast = index === 0
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: pinHeight,
-            start: () => 'top top+=' + distPerMedia() * index * triggerFactor,
-            end: () => 'bottom bottom+=' + distPerMedia() * index * triggerFactor,
-            scrub: 0.3, invalidateOnRefresh: true,
-          },
+      // position every card from a single progress value p (0 .. n-1)
+      const layout = () => {
+        cards.forEach((card, i) => {
+          const rel = st.p - i
+          let yPct, scale, op, rot
+          if (rel <= 0) {            // upcoming — peek behind, stacked down
+            const d = Math.min(-rel, 3)
+            yPct = d * 5
+            scale = 1 - d * 0.05
+            op = 1
+            rot = 0
+          } else if (rel < 1) {      // leaving — slide up and fade
+            yPct = -rel * 120
+            scale = 1
+            op = 1 - rel * 0.85
+            rot = rel * (i % 2 ? 5 : -5)
+          } else {                   // gone
+            yPct = -120; scale = 1; op = 0; rot = 0
+          }
+          gsap.set(card, { yPercent: yPct, scale, opacity: op, rotate: rot })
         })
-        for (let i = 0; i < n - 1; i++) {
-          tl.to(media, { y: '-=' + gap, z: '+=' + gap, ease: 'power2.inOut' })
-        }
-        if (!isLast) {
-          tl.to(media, { yPercent: -120, y: '-110vh', scale: 1.1, rotation: (Math.random() - 0.5) * 16, ease: 'power3.in' })
-        }
+        if (progressRef.current) progressRef.current.style.transform = `scaleX(${n > 1 ? st.p / (n - 1) : 1})`
+      }
+      layout()
+
+      ScrollTrigger.create({
+        trigger: pinHeightRef.current, start: 'top top', end: 'bottom bottom',
+        pin: containerRef.current, anticipatePin: 1, invalidateOnRefresh: true,
+      })
+      gsap.to(st, {
+        p: n - 1, ease: 'none', onUpdate: layout,
+        scrollTrigger: { trigger: pinHeightRef.current, start: 'top top', end: 'bottom bottom', scrub: 0.4, invalidateOnRefresh: true },
       })
     }, sectionRef)
 
@@ -76,7 +84,6 @@ export default function Features() {
 
   return (
     <section id="features" ref={sectionRef} style={{ background: 'var(--ink)', color: 'var(--text-light)' }}>
-      {/* header (scrolls in) */}
       <div className="container" style={{ paddingTop: 'var(--section-pad)' }}>
         <div className="mono-label" style={{ color: 'var(--hazard)', marginBottom: 18 }}>[ 03 / TECHNOLOGY ]</div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 32, flexWrap: 'wrap' }}>
@@ -90,16 +97,15 @@ export default function Features() {
         <div style={{ height: 2, background: 'var(--hazard)', marginTop: 28 }} />
       </div>
 
-      {/* pinned flashcard stack */}
-      <div ref={pinHeightRef} style={{ height: `${(features.length + 1) * 75}vh`, position: 'relative' }}>
+      <div ref={pinHeightRef} style={{ height: `${(features.length - 1) * 72 + 110}vh`, position: 'relative' }}>
         <div ref={containerRef} style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-          <div style={{ position: 'relative', width: 'min(760px, 88vw)', height: 'min(560px, 74vh)', transformStyle: 'preserve-3d', perspective: 1400 }}>
+          <div style={{ position: 'relative', width: 'min(820px, 90vw)', height: 'min(72vh, 600px)' }}>
             {features.map((f, i) => (
               <article key={i} className="tm-flash" style={{
                 position: 'absolute', inset: 0, zIndex: features.length - i,
                 background: 'var(--ink-2)', border: '1px solid var(--line-light)',
-                padding: 'clamp(28px, 4vw, 48px)', display: 'flex', flexDirection: 'column',
-                willChange: 'transform',
+                padding: 'clamp(28px, 4vw, 52px)', display: 'flex', flexDirection: 'column',
+                willChange: 'transform, opacity', boxShadow: '0 40px 80px rgba(0,0,0,0.45)',
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '0.66rem', letterSpacing: '0.14em', color: 'var(--text-light-2)' }}>
                   <span style={{ color: 'var(--hazard)' }}>{f.id}</span>
@@ -116,6 +122,10 @@ export default function Features() {
                 <div style={{ position: 'absolute', bottom: 16, right: 20, fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text-muted)' }}>{String(i + 1).padStart(2, '0')} / 06</div>
               </article>
             ))}
+            {/* progress bar under the stack */}
+            <div style={{ position: 'absolute', left: 0, right: 0, bottom: -28, height: 2, background: 'var(--line-light)' }}>
+              <div ref={progressRef} style={{ height: '100%', background: 'var(--hazard)', transformOrigin: 'left center', transform: 'scaleX(0)' }} />
+            </div>
           </div>
         </div>
       </div>
