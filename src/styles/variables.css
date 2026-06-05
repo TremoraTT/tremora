@@ -1,56 +1,56 @@
 /* ============================================================
-   TREMORA — Industrial Brutalism / Swiss Tactical Telemetry
-   Carbon ink on unbleached paper. One hazard-red accent.
-   Monospace telemetry. Heavy grotesk macro-type. Square corners.
+   TREMORA — Design exploration: SWISS MONO / INTERNATIONAL
+   Stark near-white + near-black, one electric-cobalt pop. Big bold
+   grotesk, poster scale, sharp corners, generous whitespace. (no grain)
    ============================================================ */
 :root {
-  /* --- Substrate (Swiss Industrial Print, light) --- */
-  --paper:        #F4F4F0;   /* matte documentation paper */
-  --paper-2:      #EAE8E3;   /* recessed panel */
-  --paper-3:      #E0DED7;   /* deeper fill */
-  --ink:          #0A0A0A;   /* carbon ink */
-  --ink-2:        #161616;   /* carbon panel (inverted blocks) */
-  --ink-3:        #242424;   /* elevated carbon */
+  /* --- Substrate (paper white, light) --- */
+  --paper:        #F6F6F4;
+  --paper-2:      #ECECE8;
+  --paper-3:      #E1E1DB;
+  --ink:          #0B0B0C;
+  --ink-2:        #151517;
+  --ink-3:        #1F1F22;
 
-  /* --- Single accent: aviation/hazard red --- */
-  --hazard:       #E61919;
-  --hazard-2:     #FF2A2A;
+  /* --- Single accent: electric cobalt --- */
+  --hazard:       #2438E8;
+  --hazard-2:     #3A52FF;
 
   /* --- Text --- */
-  --text-primary:   #0A0A0A;
-  --text-secondary: #3A3A38;
-  --text-muted:     #6E6C66;
-  --text-light:     #F4F4F0;   /* on carbon */
-  --text-light-2:   rgba(244,244,240,0.55);
+  --text-primary:   #0B0B0C;
+  --text-secondary: #3B3B40;
+  --text-muted:     #73737B;
+  --text-light:     #F6F6F4;
+  --text-light-2:   rgba(246,246,244,0.6);
 
   /* --- Hairlines / grid --- */
-  --line:        rgba(10,10,10,0.16);
-  --line-strong: rgba(10,10,10,0.5);
-  --line-light:  rgba(244,244,240,0.16);
+  --line:        rgba(11,11,12,0.14);
+  --line-strong: rgba(11,11,12,0.5);
+  --line-light:  rgba(246,246,244,0.18);
+  --grid-dot:    rgba(11,11,12,0.13);
+  --grid-line:   rgba(11,11,12,0.045);
 
   /* --- Type --- */
-  --font-display: 'Archivo Black', 'Arial Black', sans-serif;  /* macro headers */
-  --font-sans:    'Space Grotesk', system-ui, sans-serif;       /* body / UI */
-  --font-mono:    'JetBrains Mono', ui-monospace, monospace;    /* telemetry */
-  --font-serif:   'Playfair Display', Georgia, serif;           /* used sparingly */
+  --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-sans:    'Archivo', system-ui, sans-serif;
+  --font-mono:    'Space Mono', ui-monospace, monospace;
+  --font-serif:   'Newsreader', Georgia, serif;
 
   /* --- Motion --- */
   --ease:      cubic-bezier(0.625, 0.05, 0, 1);
   --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* --- Geometry: brutalism rejects radius --- */
+  /* --- Geometry: sharp Swiss --- */
   --radius-sm: 0; --radius-md: 0; --radius-lg: 0; --radius-xl: 0; --radius-pill: 0;
 
-  /* --- Rhythm --- */
-  --section-pad: clamp(72px, 10vw, 160px);
+  /* --- Rhythm: airy poster --- */
+  --section-pad: clamp(88px, 11vw, 184px);
   --container: 1280px;
   --gap-xl: 80px; --gap-lg: 48px; --gap-md: 32px; --gap-sm: 16px; --gap-xs: 8px;
 
-  /* ---------- LEGACY ALIASES ----------
-     Old components reference these names. Remap them onto the new
-     brutalist palette so nothing renders pastel during migration. */
+  /* ---------- LEGACY ALIASES ---------- */
   --coral: var(--hazard);
-  --coral-light: rgba(230,25,25,0.14);
+  --coral-light: rgba(36,56,232,0.12);
   --peach: var(--ink);
   --peach-light: var(--paper-2);
   --cream: var(--paper);
@@ -61,10 +61,10 @@
   --dark-surface: var(--ink-2);
   --dark-elevated: var(--ink-3);
 
-  /* Highlight presets remap to hazard / carbon (no pastels) */
-  --hl-coral-bg: var(--hazard);      --hl-coral-ring: 230, 25, 25;
-  --hl-peach-bg: var(--ink);         --hl-peach-ring: 10, 10, 10;
-  --hl-cream-bg: var(--paper-2);     --hl-cream-ring: 110, 108, 102;
+  /* Highlight presets */
+  --hl-coral-bg: var(--hazard);      --hl-coral-ring: 36, 56, 232;
+  --hl-peach-bg: var(--ink);         --hl-peach-ring: 11, 11, 12;
+  --hl-cream-bg: var(--paper-2);     --hl-cream-ring: 115, 115, 123;
   --hl-lavender-bg: var(--ink-2);    --hl-lavender-ring: 36, 36, 36;
 }
 
