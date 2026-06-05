@@ -1,11 +1,11 @@
 import Reveal from '../components/Reveal'
-import Placeholder from '../components/Placeholder'
 import HScrollStrip from '../components/HScrollStrip'
+import DashboardMock from '../components/DashboardMock'
 import { useCountUp } from '../hooks/useCountUp'
 
 const steps = [
   { n: '01', title: 'Capture', desc: 'A wrist-worn sensor samples tremor movement at 200Hz continuously throughout the day.', tags: ['MPU-6050', '6-AXIS', '200HZ'], metric: '~18hr', metricLabel: 'ACTIVE RECORDING / CHARGE', visual: 'wave' },
-  { n: '02', title: 'Score', desc: 'On-device FFT and a trained classifier score tremor severity in real time — no cloud round-trip.', tags: ['FFT', 'RANDOM-FOREST', 'UPDRS'], metric: '<50ms', metricLabel: 'PER 256-SAMPLE WINDOW', visual: 'bars' },
+  { n: '02', title: 'Score', desc: 'On-device FFT and a trained classifier score tremor severity in real time, with no cloud round-trip.', tags: ['FFT', 'RANDOM-FOREST', 'UPDRS'], metric: '<50ms', metricLabel: 'PER 256-SAMPLE WINDOW', visual: 'bars' },
   { n: '03', title: 'Reveal', desc: 'A neurologist dashboard surfaces weeks of patterns, showing how tremor responds to each dose.', tags: ['DASHBOARD', 'TIMELINE', 'REPORTS'], metric: 'WEEKS', metricLabel: 'OF DATA PER VISIT', visual: 'dash' },
 ]
 
@@ -15,14 +15,14 @@ const pipeline = [
   { stage: 'P-02', io: 'BUFFER', title: 'Windowing', desc: 'The stream is cut into overlapping frames so no tremor burst ever falls between two windows.', specs: [['WINDOW', '256 samples'], ['SPAN', '1.28 s'], ['OVERLAP', '50%'], ['TAPER', 'Hann']] },
   { stage: 'P-03', io: 'TRANSFORM', title: 'FFT', desc: 'Each frame moves to the frequency domain to isolate the 4–6 Hz Parkinsonian tremor band from voluntary motion.', specs: [['METHOD', 'Radix-2 FFT'], ['BINS', '128'], ['BAND', '4–6 Hz'], ['CLEAN', 'DC + drift removed']] },
   { stage: 'P-04', io: 'FEATURES', title: 'Feature Vector', desc: 'A compact set of discriminative features is computed per window and handed to the classifier.', specs: [['BAND PWR', 'tremor / total'], ['ENTROPY', 'spectral'], ['RMS', 'per axis'], ['PEAK', 'dominant Hz']] },
-  { stage: 'P-05', io: 'INFERENCE', title: 'Random Forest', desc: 'A trained ensemble scores severity entirely on the ESP32 — no cloud, no latency, no data leaving the wrist.', specs: [['MODEL', 'Random Forest'], ['TREES', '100'], ['LATENCY', '<50 ms'], ['ACCURACY', '86.4%*']] },
+  { stage: 'P-05', io: 'INFERENCE', title: 'Random Forest', desc: 'A trained ensemble scores severity entirely on the ESP32, with no cloud, no latency, no data leaving the wrist.', specs: [['MODEL', 'Random Forest'], ['TREES', '100'], ['LATENCY', '<50 ms'], ['ACCURACY', '86.4%*']] },
   { stage: 'P-06', io: 'OUTPUT', title: 'UPDRS Proxy', desc: 'Window scores aggregate into a continuous severity curve, time-aligned to every logged medication dose.', specs: [['SCALE', '0–4 proxy'], ['CADENCE', 'per minute'], ['ALIGNED', 'dose events'], ['EXPORT', 'CSV / PDF']] },
 ]
 
 function Metric({ display }) { const { ref, value } = useCountUp(display); return <span ref={ref}>{value}</span> }
 
 function Visual({ type }) {
-  if (type === 'dash') return <Placeholder label="DASHBOARD" sub="SCREENSHOT / SOON" ratio="16/10" theme="dark" />
+  if (type === 'dash') return <DashboardMock caption="Synthetic preview" />
   return (
     <div style={{ width: '100%', aspectRatio: '16/10', border: '1px solid var(--line-light)', background: 'var(--ink-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
       {type === 'wave' && (
