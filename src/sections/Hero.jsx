@@ -37,7 +37,7 @@ export default function Hero() {
       display: 'flex', flexDirection: 'column', alignItems: 'center', overflow: 'hidden',
       padding: 'clamp(112px, 15vh, 156px) clamp(20px, 5vw, 56px) 0',
     }}>
-      <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 50% at 50% 8%, var(--hazard) 0%, transparent 60%)', opacity: 0.06, pointerEvents: 'none', zIndex: 0 }} />
+      <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 54% 46% at 36% 4%, var(--hazard) 0%, transparent 58%), radial-gradient(ellipse 48% 42% at 72% 6%, var(--accent-2) 0%, transparent 58%)', opacity: 0.07, pointerEvents: 'none', zIndex: 0 }} />
       <div aria-hidden style={{
         position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
         backgroundImage: 'radial-gradient(var(--grid-dot) 1.1px, transparent 1.5px)',

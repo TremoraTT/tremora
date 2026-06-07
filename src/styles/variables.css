@@ -12,9 +12,11 @@
   --ink-2:        #232E3D;
   --ink-3:        #2D3A4C;
 
-  /* --- Single accent: restrained indigo --- */
+  /* --- Accents: indigo (primary) + teal (secondary) --- */
   --hazard:       #4F5BD5;
   --hazard-2:     #616DE8;
+  --accent-2:      #11A6AE;
+  --accent-2-soft: rgba(17,166,174,0.12);
 
   /* --- Text --- */
   --text-primary:   #1B2430;
