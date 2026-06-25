@@ -1,8 +1,9 @@
 import Image from "next/image";
 
+import tremoraLogo from "../../../public/tremora-logo-transparent.png";
 import { cn } from "@/lib/utils";
 
-export const LOGO_SRC = "/tremora-logo-transparent.png";
+export const LOGO_SRC = tremoraLogo.src;
 export const LOGO_INTRINSIC_WIDTH = 1185;
 export const LOGO_INTRINSIC_HEIGHT = 1971;
 export const LOGO_ASPECT_RATIO = LOGO_INTRINSIC_WIDTH / LOGO_INTRINSIC_HEIGHT;
@@ -19,7 +20,7 @@ export function TremoraLogo({
 }: TremoraLogoProps): React.ReactElement {
   return (
     <Image
-      src={LOGO_SRC}
+      src={tremoraLogo}
       alt=""
       width={LOGO_INTRINSIC_WIDTH}
       height={LOGO_INTRINSIC_HEIGHT}
