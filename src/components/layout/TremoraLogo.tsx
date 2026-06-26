@@ -1,12 +1,14 @@
 import Image from "next/image";
 
-import tremoraLogo from "../../../public/tremora-logo-transparent.png";
+import { withBasePath } from "@/lib/base-path";
+import {
+  LOGO_ASPECT_RATIO,
+  LOGO_INTRINSIC_HEIGHT,
+  LOGO_INTRINSIC_WIDTH,
+} from "@/lib/logo";
 import { cn } from "@/lib/utils";
 
-export const LOGO_SRC = tremoraLogo.src;
-export const LOGO_INTRINSIC_WIDTH = 1185;
-export const LOGO_INTRINSIC_HEIGHT = 1971;
-export const LOGO_ASPECT_RATIO = LOGO_INTRINSIC_WIDTH / LOGO_INTRINSIC_HEIGHT;
+export const LOGO_SRC = withBasePath("/tremora-logo-transparent.png");
 
 interface TremoraLogoProps {
   className?: string;
@@ -20,17 +22,18 @@ export function TremoraLogo({
 }: TremoraLogoProps): React.ReactElement {
   return (
     <Image
-      src={tremoraLogo}
+      src={LOGO_SRC}
       alt=""
       width={LOGO_INTRINSIC_WIDTH}
       height={LOGO_INTRINSIC_HEIGHT}
+      unoptimized
+      priority
       className={cn("shrink-0 object-contain", className)}
       style={
         height !== undefined
           ? { width: Math.round(height * LOGO_ASPECT_RATIO), height }
           : { width: "auto", height: "1.18em" }
       }
-      priority
     />
   );
 }

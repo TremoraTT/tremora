@@ -9,11 +9,13 @@ import type { ComparisonBarData } from "@/components/sections/BlindSpotSection";
 interface AnimatedComparisonBarProps {
   bar: ComparisonBarData;
   delay?: number;
+  className?: string;
 }
 
 export function AnimatedComparisonBar({
   bar,
   delay = 0,
+  className,
 }: AnimatedComparisonBarProps): React.ReactElement {
   const trackRef = useRef<HTMLDivElement>(null);
   const [isFilled, setIsFilled] = useState<boolean>(false);
@@ -43,7 +45,7 @@ export function AnimatedComparisonBar({
   }, []);
 
   return (
-    <div className="flex items-center gap-4">
+    <div className={cn("flex w-full items-center gap-4", className)}>
       <span className="w-[120px] shrink-0 text-xs text-slate-500">
         {bar.label}
       </span>

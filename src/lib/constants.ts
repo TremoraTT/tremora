@@ -4,10 +4,9 @@ export interface NavLink {
 }
 
 export const NAV_LINKS: NavLink[] = [
-  { label: "Problem", href: "#problem" },
+  { label: "Device", href: "#device" },
   { label: "How it works", href: "#how-it-works" },
   { label: "Dashboard", href: "#dashboard" },
-  { label: "Device", href: "#device" },
 ];
 
 export const CONTACT_EMAIL = "hello@tremora.health";

@@ -1,5 +1,6 @@
 import { MedicationResponseChart } from "@/components/MedicationResponseChart";
 import { Container } from "@/components/layout/Container";
+import { SectionHeader } from "@/components/layout/SectionHeader";
 import { FadeIn } from "@/components/FadeIn";
 import { SECTION_INSET_CLASS } from "@/lib/constants";
 import {
@@ -66,7 +67,7 @@ function ComparisonBlock({
       <div className="flex items-center gap-2">
         {column.showRedDot === true ? (
           <span
-            className="h-1.5 w-1.5 shrink-0 rounded-full bg-red-500"
+            className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-600"
             aria-hidden="true"
           />
         ) : null}
@@ -80,10 +81,10 @@ function ComparisonBlock({
 }
 
 export function MedicationResponseCurveSection({
-  eyebrow = "The medication response curve",
+  eyebrow = "The Medication Response Curve",
   headlineBeforeAccent = "See exactly when the dose ",
   headlineAccent = "takes hold",
-  headlineAfterAccent = " — and wears off.",
+  headlineAfterAccent = ", and wears off.",
   subhead = "A view a single clinic visit can't provide.",
   statCards = DEFAULT_STAT_CARDS,
   chartConfig = DEFAULT_CHART_CONFIG,
@@ -92,25 +93,25 @@ export function MedicationResponseCurveSection({
   return (
     <section id="dashboard" className="section-spacing bg-bg">
       <Container as="div" className={SECTION_INSET_CLASS}>
-        <FadeIn>
-          <header className="mx-auto max-w-3xl text-center">
-            <div className="flex items-center justify-center gap-3">
-              <span className="h-px w-6 bg-green-600" aria-hidden="true" />
-              <p className="text-[0.8125rem] text-green-600">{eyebrow}</p>
-            </div>
-            <h2 className="mt-5 font-heading text-[2.375rem] font-medium leading-[1.2] tracking-normal text-ink">
+        <SectionHeader
+          title={eyebrow}
+          subhead={
+            <>
               {headlineBeforeAccent}
               <span className="text-green-600">{headlineAccent}</span>
               {headlineAfterAccent}
-            </h2>
-            {/* TODO: reference copy was "No other affordable device shows you this." — confirm before reverting. */}
-            <p className="mx-auto mt-4 max-w-xl text-base leading-[1.65] text-slate-500">
-              {subhead}
-            </p>
-          </header>
+            </>
+          }
+          subheadClassName="text-center"
+        />
+
+        <FadeIn delay={160}>
+          <p className="mt-5 text-center text-base leading-[1.7] text-slate-500">
+            {subhead}
+          </p>
         </FadeIn>
 
-        <FadeIn delay={100}>
+        <FadeIn delay={180}>
           <div className="mt-12 grid gap-4 sm:grid-cols-3 md:mt-14">
             {statCards.map((card) => (
               <StatCard key={card.id} card={card} />

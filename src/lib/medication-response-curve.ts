@@ -90,7 +90,7 @@ export const DEFAULT_STAT_CARDS: DashboardStatCard[] = [
     id: "dose-duration",
     label: "Dose duration",
     value: "14:47",
-    accentColor: "red-500",
+    accentColor: "green-600",
   },
 ];
 
@@ -101,7 +101,7 @@ export const DEFAULT_COMPARISON_COLUMNS: ComparisonColumn[] = [
   },
   {
     label: "Tremora monitoring",
-    body: "Continuous score data and full medication response curves — objective measurements across every dose.",
+    body: "Continuous score data and full medication response curves, objective measurements across every dose.",
     showRedDot: true,
   },
 ];

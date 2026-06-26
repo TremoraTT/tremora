@@ -5,7 +5,6 @@ export interface CtaButton {
 }
 
 export interface ClosingCtaContent {
-  eyebrow: string;
   headlineBeforeAccent: string;
   headlineAccent: string;
   subhead: string;
@@ -21,7 +20,6 @@ export interface FooterContent {
 }
 
 export const DEFAULT_CLOSING_CTA: ClosingCtaContent = {
-  eyebrow: "Where we are",
   headlineBeforeAccent: "Built for the patients ",
   headlineAccent: "between appointments.",
   subhead:

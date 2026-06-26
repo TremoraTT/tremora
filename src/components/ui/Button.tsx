@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { BUTTON_HOVER_CLASS } from "@/lib/button-styles";
 import { cn } from "@/lib/utils";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
@@ -27,11 +28,9 @@ interface ButtonAsLinkProps extends ButtonBaseProps {
 type ButtonProps = ButtonAsButtonProps | ButtonAsLinkProps;
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary:
-    "bg-green-600 text-white hover:bg-green-700 active:bg-green-700 border border-transparent",
-  secondary:
-    "bg-white text-ink border border-border hover:border-green-600 hover:text-green-600",
-  ghost: "bg-transparent text-green-600 hover:text-green-700 hover:underline underline-offset-4",
+  primary: "bg-green-600 text-white border border-transparent",
+  secondary: "bg-white text-ink border border-border",
+  ghost: "bg-transparent text-green-600 underline-offset-4",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -39,8 +38,11 @@ const sizeStyles: Record<ButtonSize, string> = {
   compact: "px-4 py-1.5",
 };
 
-const baseStyles =
-  "inline-flex items-center justify-center rounded-lg text-body-sm font-medium transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600";
+const baseStyles = cn(
+  "inline-flex items-center justify-center rounded-lg text-body-sm font-medium",
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600",
+  BUTTON_HOVER_CLASS,
+);
 
 export function Button({
   variant = "primary",

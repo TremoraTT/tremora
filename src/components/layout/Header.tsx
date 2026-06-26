@@ -4,8 +4,16 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/layout/Container";
 import { TremoraWordmark } from "@/components/layout/TremoraWordmark";
 import { FadeIn } from "@/components/FadeIn";
+import { BUTTON_HOVER_CLASS } from "@/lib/button-styles";
 import { NAV_LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+
+const NAV_LINK_CLASS = cn(
+  "relative inline-block text-body-sm text-slate-500 transition-colors hover:text-ink",
+  "after:pointer-events-none after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-green-600 after:transition-[width] after:duration-200 after:ease-out",
+  "hover:after:w-full",
+  "motion-reduce:after:transition-none",
+);
 
 export function Header(): React.ReactElement {
   return (
@@ -28,7 +36,7 @@ export function Header(): React.ReactElement {
             <Link
               key={link.href}
               href={link.href}
-              className="text-body-sm text-slate-500 transition-colors hover:text-ink"
+              className={NAV_LINK_CLASS}
             >
               {link.label}
             </Link>
@@ -42,8 +50,9 @@ export function Header(): React.ReactElement {
           <summary
             className={cn(
               "flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-lg border border-border",
-              "hover:border-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600",
+              "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600",
               "[&::-webkit-details-marker]:hidden",
+              BUTTON_HOVER_CLASS,
             )}
             aria-label="Open menu"
           >
@@ -69,7 +78,7 @@ export function Header(): React.ReactElement {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="rounded-lg px-3 py-2.5 text-body-sm text-slate-500 transition-colors hover:bg-green-50 hover:text-ink"
+                  className={cn(NAV_LINK_CLASS, "w-full rounded-lg px-3 py-2.5")}
                 >
                   {link.label}
                 </Link>

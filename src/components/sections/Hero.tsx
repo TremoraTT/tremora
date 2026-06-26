@@ -41,7 +41,7 @@ export function Hero(): React.ReactElement {
 
             <FadeIn delay={160}>
               <a
-                href="#problem"
+                href="#device"
                 className="group mt-10 inline-flex flex-col items-center gap-3 text-slate-500 transition-colors hover:text-ink"
                 aria-label="Scroll for more"
               >

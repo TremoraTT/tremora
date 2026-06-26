@@ -14,7 +14,6 @@ export function ClosingCtaSection({
   content = DEFAULT_CLOSING_CTA,
 }: ClosingCtaSectionProps): React.ReactElement {
   const {
-    eyebrow,
     headlineBeforeAccent,
     headlineAccent,
     subhead,
@@ -28,12 +27,7 @@ export function ClosingCtaSection({
         <FadeIn>
           <div className="mx-auto max-w-[720px] rounded-lg border-[0.5px] border-border bg-bg px-6 py-10 sm:px-8 sm:py-12 md:px-10 md:py-14">
             <div className="text-center">
-              <div className="flex items-center justify-center gap-3">
-                <span className="h-px w-6 bg-green-600" aria-hidden="true" />
-                <p className="text-[0.8125rem] text-green-600">{eyebrow}</p>
-              </div>
-
-              <h2 className="mx-auto mt-5 max-w-lg font-heading text-[2.5rem] font-medium leading-[1.15] tracking-normal text-ink">
+              <h2 className="mx-auto max-w-lg font-heading text-[2.5rem] font-medium leading-[1.15] tracking-normal text-ink">
                 {headlineBeforeAccent}
                 <span className="text-green-600">{headlineAccent}</span>
               </h2>
@@ -59,8 +53,8 @@ export function ClosingCtaSection({
                 ))}
               </div>
 
-              {/* TODO: reference said "Active IRB protocol · Clinical validation ongoing." — confirm before changing. */}
-              <p className="mx-auto mt-6 max-w-xl text-xs leading-relaxed text-slate-500">
+              {/* TODO: reference said "Active IRB protocol · Clinical validation ongoing." Per our status the IRB isn't submitted yet and the study hasn't run. Confirm before changing. */}
+              <p className="mx-auto mt-6 text-xs leading-relaxed text-slate-500">
                 {finePrintItems.join(" · ")}
               </p>
             </div>

@@ -54,6 +54,22 @@
   --width-container: 72rem;
 
   --animate-scroll-meter: scroll-meter 2.2s ease-in-out infinite;
+  --animate-caret-blink: caret-blink 1s step-end infinite;
+  --animate-device-waveform: device-waveform 1.3s ease-in-out infinite;
+  --animate-device-scale-dot: device-scale-dot-fill 2.4s ease-in-out infinite;
+  --animate-device-wave-scroll: device-wave-scroll 2s linear infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes scroll-meter {
@@ -70,6 +86,41 @@
   100% {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@keyframes device-waveform {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(0.5);
+  }
+}
+
+@keyframes device-scale-dot-fill {
+  0%,
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  2%,
+  8% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes device-wave-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
@@ -184,5 +235,10 @@
   .custom-cursor-active,
   .custom-cursor-active * {
     cursor: none !important;
+  }
+
+  .device-wave-track {
+    transform-box: fill-box;
+    transform-origin: 0 0;
   }
 }
