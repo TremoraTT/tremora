@@ -130,7 +130,7 @@ take medication.
 
 Step 2 — Quantify: Tremora measures the tremor's frequency, amplitude, and severity over
 time — not just whether tremor is present — and maps it to the clinical scales neurologists
-already document (UPDRS for Parkinson's, TETRAS for Essential Tremor).
+already document (Tremora Severity Index (TSI) for Parkinson's, TETRAS for Essential Tremor).
 
 Step 3 — Act: The data flows to a clinician dashboard showing how tremor moved over hours
 and days, including around medication events, so treatment can be tuned with evidence.
@@ -153,7 +153,7 @@ Describe (as feature cards or an alternating feature/visual layout) what the das
 shows:
 - Tremor frequency over time
 - Amplitude / severity trend over time
-- UPDRS severity (0–4) as a clinician-facing summary line
+- Tremora Severity Index (TSI) severity (0–4) as a clinician-facing summary line, not clinically validated
 - Medication events overlaid as markers, so tremor change can be read against dose timing
 - A guided spiral-tracing task that quantifies tremor during a controlled fine-motor task
   (familiar from clinic)
@@ -173,7 +173,7 @@ Add a "Why Tremora" / differentiation section contrasting Tremora with consumer 
 
 Core point (paraphrase): Consumer wearables can flag that a tremor exists — a binary
 signal. Tremora measures how fast, how strong, and how severe the tremor is, over time,
-and maps it to UPDRS and TETRAS.
+and maps it to Tremora Severity Index (TSI) and TETRAS.
 
 Present as a simple two-column comparison (Consumer wearable vs. Tremora) or a clean
 "binary vs. quantified" visual. Use green checks for Tremora's column; keep red out of
@@ -192,7 +192,7 @@ Include, stated EXACTLY and conservatively:
 - "Classifier validated at 86.4% accuracy (cross-validated on a public physiological
   dataset)." Use this figure verbatim. Never round up or restate it as higher.
 - Tremora is built around remote patient monitoring, a reimbursable clinical service.
-- Designed to map to the standard scales (UPDRS, TETRAS).
+- Designed to map to Tremora Severity Index (TSI) and TETRAS.
 
 Do NOT claim FDA clearance or approval. If you reference regulatory status at all, say it
 is in development / investigational, or omit entirely. Present as a quiet, confident strip

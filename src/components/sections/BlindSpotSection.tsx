@@ -66,15 +66,6 @@ const DEFAULT_STATS: StatRowData[] = [
     counterEnd: 25,
     counterSuffix: "M",
   },
-  {
-    value: "$1,600+",
-    description: "annual cost of the nearest competitor",
-    accentColor: "green-600",
-    counterEnd: 1600,
-    counterPrefix: "$",
-    counterSuffix: "+",
-    counterUseGrouping: true,
-  },
 ];
 
 const ACCENT_BAR_CLASSES: Record<AccentColor, string> = {
@@ -170,7 +161,7 @@ export function BlindSpotSection({
           </FadeIn>
 
           <div className="lg:pt-2">
-            {/* TODO: comparative claim — confirm $1,600+ competitor cost is substantiated before publishing. */}
+            {/* TODO: comparative claim — confirm competitor capabilities are substantiated before publishing. */}
             <div className="divide-y divide-border">
               {stats.map((stat, index) => (
                 <StatRow

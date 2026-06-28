@@ -1,13 +1,12 @@
 export interface CompetitorCapabilities {
-  responseCurve: boolean;
-  continuous: boolean;
+  continuousMonitoring: boolean;
+  medicationResponseCurve: boolean;
   dualCondition: boolean;
 }
 
 export interface CompetitorRow {
   id: string;
   device: string;
-  price: string;
   capabilities: CompetitorCapabilities;
   isHighlighted: boolean;
 }
@@ -18,9 +17,8 @@ export interface CompetitiveLandscapeContent {
   caption: string;
   columns: {
     device: string;
-    price: string;
-    responseCurve: string;
-    continuous: string;
+    continuousMonitoring: string;
+    medicationResponseCurve: string;
     dualCondition: string;
   };
   rows: CompetitorRow[];
@@ -30,22 +28,20 @@ export const DEFAULT_COMPETITIVE_LANDSCAPE: CompetitiveLandscapeContent = {
   eyebrow: "Competitive Landscape",
   headline: "The only device that shows you the curve.",
   caption:
-    "Medication response curves are not available at any price point in current consumer wearables.",
+    "Continuous monitoring and medication-response curves are not available on any other consumer wearable.",
   columns: {
     device: "Device",
-    price: "Price",
-    responseCurve: "Response curve",
-    continuous: "Continuous",
+    continuousMonitoring: "Continuous monitoring",
+    medicationResponseCurve: "Medication-response curve",
     dualCondition: "Dual condition",
   },
   rows: [
     {
       id: "tremora",
       device: "Tremora",
-      price: "$99",
       capabilities: {
-        responseCurve: true,
-        continuous: true,
+        continuousMonitoring: true,
+        medicationResponseCurve: true,
         dualCondition: true,
       },
       isHighlighted: true,
@@ -53,10 +49,9 @@ export const DEFAULT_COMPETITIVE_LANDSCAPE: CompetitiveLandscapeContent = {
     {
       id: "pkg-watch",
       device: "PKG Watch",
-      price: "$1,600+/yr",
       capabilities: {
-        responseCurve: false,
-        continuous: true,
+        continuousMonitoring: true,
+        medicationResponseCurve: false,
         dualCondition: false,
       },
       isHighlighted: false,
@@ -64,10 +59,9 @@ export const DEFAULT_COMPETITIVE_LANDSCAPE: CompetitiveLandscapeContent = {
     {
       id: "stat-on",
       device: "STAT-ON",
-      price: "$1,600+/yr",
       capabilities: {
-        responseCurve: false,
-        continuous: true,
+        continuousMonitoring: true,
+        medicationResponseCurve: false,
         dualCondition: false,
       },
       isHighlighted: false,
@@ -75,21 +69,9 @@ export const DEFAULT_COMPETITIVE_LANDSCAPE: CompetitiveLandscapeContent = {
     {
       id: "kinesia-360",
       device: "Kinesia 360",
-      price: "$1,000+/yr",
       capabilities: {
-        responseCurve: false,
-        continuous: false,
-        dualCondition: false,
-      },
-      isHighlighted: false,
-    },
-    {
-      id: "apple-watch",
-      device: "Apple Watch",
-      price: "Subscription required",
-      capabilities: {
-        responseCurve: false,
-        continuous: false,
+        continuousMonitoring: false,
+        medicationResponseCurve: false,
         dualCondition: false,
       },
       isHighlighted: false,

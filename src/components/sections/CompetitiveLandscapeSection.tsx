@@ -82,7 +82,7 @@ export function CompetitiveLandscapeSection({
         <FadeIn delay={120}>
           <div className="mt-10 overflow-hidden rounded-lg border-[0.5px] border-border bg-bg md:mt-12">
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[640px] border-collapse text-left text-sm">
+              <table className="w-full min-w-[560px] border-collapse text-left text-sm">
                 <thead>
                   <tr className="border-b border-border">
                     <th
@@ -93,21 +93,15 @@ export function CompetitiveLandscapeSection({
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-4 font-normal text-slate-500 sm:px-4"
+                      className="px-3 py-4 text-center font-normal text-slate-500 sm:px-4"
                     >
-                      {columns.price}
+                      {columns.continuousMonitoring}
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-4 text-center font-normal text-slate-500 sm:px-4"
                     >
-                      {columns.responseCurve}
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-4 text-center font-normal text-slate-500 sm:px-4"
-                    >
-                      {columns.continuous}
+                      {columns.medicationResponseCurve}
                     </th>
                     <th
                       scope="col"
@@ -138,23 +132,13 @@ export function CompetitiveLandscapeSection({
                       >
                         {row.device}
                       </th>
-                      <td
-                        className={cn(
-                          "px-3 py-4 sm:px-4",
-                          row.isHighlighted
-                            ? "font-heading font-medium text-green-600"
-                            : "text-ink",
-                        )}
-                      >
-                        {row.price}
-                      </td>
                       <CapabilityCell
                         capabilities={row.capabilities}
-                        field="responseCurve"
+                        field="continuousMonitoring"
                       />
                       <CapabilityCell
                         capabilities={row.capabilities}
-                        field="continuous"
+                        field="medicationResponseCurve"
                       />
                       <CapabilityCell
                         capabilities={row.capabilities}
@@ -167,7 +151,6 @@ export function CompetitiveLandscapeSection({
             </div>
           </div>
 
-          {/* TODO: comparative claim — confirm competitor pricing and capabilities are substantiated before publishing. */}
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-slate-500">
             {caption}
           </p>

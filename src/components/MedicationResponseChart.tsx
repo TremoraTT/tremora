@@ -227,7 +227,14 @@ export function MedicationResponseChart({
         transform={`rotate(-90, 16, ${layout.height / 2})`}
         className="fill-slate-500 text-[12px]"
       >
-        {config.axis.yAxisLabel}
+        <tspan x={16} dy={config.axis.yAxisQualifier !== undefined ? "-0.6em" : "0"}>
+          {config.axis.yAxisLabel}
+        </tspan>
+        {config.axis.yAxisQualifier !== undefined ? (
+          <tspan x={16} dy="1.2em">
+            ({config.axis.yAxisQualifier})
+          </tspan>
+        ) : null}
       </text>
 
       <path

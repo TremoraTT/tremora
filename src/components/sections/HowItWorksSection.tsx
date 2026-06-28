@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/layout/SectionHeader";
 import { FadeIn } from "@/components/FadeIn";
-import { SECTION_INSET_CLASS } from "@/lib/constants";
+import { SECTION_INSET_CLASS, TSI_PRIMARY_LABEL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 export interface HowItWorksStep {
@@ -30,7 +30,7 @@ const DEFAULT_STEPS: HowItWorksStep[] = [
     id: "score",
     stepLabel: "Step 02",
     title: "Device scores in real time.",
-    body: "Onboard signal processing identifies tremor frequency and amplitude and generates UPDRS or TETRAS proxy scores, filtering out voluntary movement.",
+    body: `Onboard signal processing identifies tremor frequency and amplitude and generates ${TSI_PRIMARY_LABEL} scores, filtering out voluntary movement.`,
   },
   {
     id: "insight",

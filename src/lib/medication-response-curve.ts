@@ -3,6 +3,13 @@ export interface CurvePoint {
   y: number;
 }
 
+import {
+  TSI_FULL_NAME,
+  TSI_NOT_CLINICALLY_VALIDATED,
+  TSI_PRIMARY_LABEL,
+  TSI_SHORT,
+} from "@/lib/constants";
+
 export interface ChartAxisConfig {
   xMin: number;
   xMax: number;
@@ -10,6 +17,7 @@ export interface ChartAxisConfig {
   yMax: number;
   xAxisLabel: string;
   yAxisLabel: string;
+  yAxisQualifier?: string;
 }
 
 export interface ChartEventMarker {
@@ -46,7 +54,8 @@ export const DEFAULT_CHART_CONFIG: MedicationResponseChartConfig = {
     yMin: 0,
     yMax: 4,
     xAxisLabel: "Time (minutes)",
-    yAxisLabel: "UPDRS tremor score",
+    yAxisLabel: TSI_FULL_NAME,
+    yAxisQualifier: TSI_NOT_CLINICALLY_VALIDATED,
   },
   curvePoints: [
     { t: 0, y: 3.2 },
@@ -97,7 +106,7 @@ export const DEFAULT_STAT_CARDS: DashboardStatCard[] = [
 export const DEFAULT_COMPARISON_COLUMNS: ComparisonColumn[] = [
   {
     label: "Standard monitoring",
-    body: "One UPDRS score per quarter, based on how the patient happened to present during a ten-minute exam.",
+    body: `One ${TSI_SHORT} score per quarter, based on how the patient happened to present during a ten-minute exam.`,
   },
   {
     label: "Tremora monitoring",
@@ -204,7 +213,7 @@ export function buildChartAriaLabel(
 
   return [
     "Illustrative medication response curve.",
-    `UPDRS tremor score from ${axis.xMin} to ${axis.xMax} minutes.`,
+    `${TSI_PRIMARY_LABEL} tremor score from ${axis.xMin} to ${axis.xMax} minutes.`,
     `${doseMarker.label} marked at ${doseMarker.timeMinutes} minutes.`,
     "Score decreases after dosing, reaches lowest severity near 90 minutes, then gradually increases toward wear-off.",
   ].join(" ");
