@@ -26,7 +26,7 @@ export const DEFAULT_CLOSING_CTA: ClosingCtaContent = {
     "Tremora is in active clinical development, working with neurologists toward validation for patient care.",
   buttons: [
     {
-      label: "Request access",
+      label: "Contact Us",
       href: "mailto:hello@tremora.health",
       variant: "primary",
     },

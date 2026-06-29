@@ -31,7 +31,10 @@ function CapabilityRow({ capabilities }: CapabilityRowProps): React.ReactElement
       {capabilities.map((capability, index) => (
         <Fragment key={capability}>
           {index > 0 ? (
-            <span aria-hidden="true" className="text-slate-500/70">
+            <span
+              aria-hidden="true"
+              className="px-0.5 text-xl leading-none text-green-600 sm:text-2xl"
+            >
               ·
             </span>
           ) : null}

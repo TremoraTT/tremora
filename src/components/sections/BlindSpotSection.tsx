@@ -132,7 +132,7 @@ export function BlindSpotSection({
         <div className="mt-10 grid items-center gap-12 lg:mt-12 lg:grid-cols-[55fr_45fr] lg:gap-16 xl:gap-20">
           <FadeIn delay={100}>
             <div className="space-y-5">
-              {/* TODO: verify this figure — 10 min/quarter × 4 ≈ 40 min/yr; confirm wording. */}
+              {/* TODO: verify this figure: 10 min/quarter × 4 ≈ 40 min/yr; confirm wording. */}
               <h3 className="max-w-lg font-heading text-[1.75rem] font-medium leading-[1.25] tracking-normal text-ink sm:text-[2.125rem]">
                 <span className="text-ink">{displayPrefix} </span>
                 <span
@@ -161,7 +161,7 @@ export function BlindSpotSection({
           </FadeIn>
 
           <div className="lg:pt-2">
-            {/* TODO: comparative claim — confirm competitor capabilities are substantiated before publishing. */}
+            {/* TODO: comparative claim: confirm competitor capabilities are substantiated before publishing. */}
             <div className="divide-y divide-border">
               {stats.map((stat, index) => (
                 <StatRow

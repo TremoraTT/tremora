@@ -90,7 +90,7 @@ export const DEFAULT_SOFTWARE_SECTION: SoftwareSectionContent = {
   curveHeadlineAccent: "takes hold",
   curveHeadlineAfterAccent: ", and the exact minute it fails.",
   curveSubline:
-    "A view no clinic visit, and no other device, can give — especially between appointments.",
+    "A view no clinic visit, and no other device, can give, especially between appointments.",
   featuresIntro:
     "Four capabilities built for the gap between visits, not just the ten minutes in the exam room.",
   featureCards: DEFAULT_SOFTWARE_FEATURE_CARDS,

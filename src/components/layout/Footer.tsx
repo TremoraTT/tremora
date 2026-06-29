@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
+import { TremoraWordmark } from "@/components/layout/TremoraWordmark";
 import {
   DEFAULT_FOOTER_CONTENT,
   type FooterContent,
@@ -20,17 +21,10 @@ export function Footer({
           <div className="md:justify-self-start">
             <Link
               href="/"
-              className="inline-flex items-center gap-3 focus-visible:rounded-lg"
+              className="inline-flex shrink-0 focus-visible:rounded-lg"
               aria-label="Tremora home"
             >
-              <span
-                className="inline-block h-6 w-6 shrink-0"
-                aria-hidden="true"
-              />
-              <span className="font-heading text-lg font-semibold leading-none tracking-normal text-ink">
-                {content.wordmark}
-                <span className="text-red-500">.</span>
-              </span>
+              <TremoraWordmark className="text-xl sm:text-2xl" />
             </Link>
           </div>
 

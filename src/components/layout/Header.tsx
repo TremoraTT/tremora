@@ -42,7 +42,7 @@ export function Header(): React.ReactElement {
             </Link>
           ))}
           <Button href="#contact" size="compact">
-            Request a demo
+            Contact Us
           </Button>
         </nav>
 
@@ -85,7 +85,7 @@ export function Header(): React.ReactElement {
               ))}
               <div className="mt-2 border-t border-border pt-2">
                 <Button href="#contact" size="compact" className="w-full">
-                  Request a demo
+                  Contact Us
                 </Button>
               </div>
             </nav>
